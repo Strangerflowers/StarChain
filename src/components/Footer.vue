@@ -23,8 +23,16 @@
 	</div>
 </template>
 <script type="text/javascript">
-	
+	export default {
+		name:'Footer'
+
+	}
 </script>
 <style type="text/css" lang='scss' scoped>
-	
+@import '../styles/base.scss';
+	.footer{
+		width:100%;
+		height:20px;
+		background:#f00;
+	}
 </style>

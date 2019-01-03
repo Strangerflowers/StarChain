@@ -41,6 +41,11 @@ module.exports = {
         loader: 'babel-loader',
         include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
       },
+       // sass编译加载器
+      {
+          test:/\.scss$/,
+          loader:['style-loader','css-loader','sass-loader']
+      },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
