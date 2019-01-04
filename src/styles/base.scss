@@ -62,3 +62,7 @@ s,i,em{font-style:normal;text-decoration:none;}
 .hide {
     display:none;
 }
+
+@function rem($px){
+    @return $px / 37.5px * 1rem;
+}
