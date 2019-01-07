@@ -2,12 +2,13 @@
 	<div class="footer">
 		<div class="footer-wrap ft-fixed">
 		   	<ul>
-		   	 	<li  v-for="tab in tabs" :key="tab.name" @click="goto(tab.path)">
+		   	 	<li  v-for="tab in tabs" :key="tab.name"  >
 		   	 		<a>
-		   	 			<i class="iconfont" :class="tab.icon" ></i>
-		   	 			<p class="tab-text">{{tab.text}}</p>
-		   	 		</a>	
-		   	 		
+			   	 		<router-link :to="tab.name" active-class="select">
+			   	 			<i class="iconfont" :class="tab.icon" ></i>
+			   	 			<p class="tab-text" >{{tab.text}}</p>
+			   	 		</router-link>	
+		   	 		</a>
 		   	 	</li>
 		   	</ul>
   		</div>
@@ -42,21 +43,20 @@
                     name:'User'
                 }
             ],
-            selected:'Home'
+            selected:0
 			}
 		},
 		methods:{
-			goto(path){
-				this.$router.push({path})
-			}
+			
 		}
 
 	}
 </script>
 <style type="text/css" lang='scss' scoped>
-@import '../styles/base.scss';
+
 	.footer{
 		border-top:1px solid #ccc;
+		background-color:#fff;
 		position:fixed;
 		bottom:0;
 		left:0;
@@ -90,8 +90,12 @@
 						line-height:rem(29px);
 
 					}
+					.select{
+						color:#f00;
+					}
 				}
 			}
+			
 		}
 
 	}
