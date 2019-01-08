@@ -15,6 +15,8 @@ import Home from './page/Home/home.vue';
 import Classify from './page/Classify/classify.vue';
 import Cart from './page/Cart/cart.vue';
 import User from './page/User/user.vue';
+//import User  from './page/Register/register.vue';
+
 
 
 // 引入mint-ui全部组件
