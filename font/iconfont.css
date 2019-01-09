@@ -68,6 +68,7 @@
 
 .icon-dianpu:before {
   content: "\e632";
+  color:#333;
 }
 
 .icon-user:before {
