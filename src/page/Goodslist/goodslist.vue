@@ -8,17 +8,17 @@
 		   	</ul> 
 		   	<div class="row-sort border-t border-b"> 
 		    	<ul> 
-		     		<li class="s-name flexbox-item on">
+		     		<li class="s-name flexbox-item on" @click="minxin">
 		     			综合
 		     		</li> 
-		     		<li class="item-order flexbox-item">
+		     		<li class="item-order flexbox-item" @click="orderSale">
 		     			
-		     				销量<i></i>
+		     			销量<i></i>
 		     			
 		     		</li> 
-		     		<li class="">
+		     		<li class="price" @click="orderPrice">
 		     			
-		     				价格 <i ></i>
+		     			价格 <i ></i>
 		     			
 		     		</li> 
 		   	 	</ul> 
@@ -31,14 +31,14 @@
 			    </div> 
 		   </div> 
 		</div>
-		<div class="shoplist" v-if="on">
+		<div class="shoplist" v-if="on"  id="container">
 			<div class="g-list">
 				<ul  v-infinite-scroll="loadMore"
 						
 						infinite-scroll-distance="10">
-					<li v-for="(good, index) in goodslist" :key="index" >
+					<li v-for="(good, index) in goodslist" :key="index" @click="gotoDetail(index)">
 						<div class="g-list-left">
-							<img :src="good.goodsLogo">
+							<img   v-lazy.container="good.goodsLogo"  >
 						</div>
 						<div class="g-list-right">
 							<div class="g-list-con">
@@ -62,7 +62,7 @@
 				</ul>
 			</div>
 		</div>
-		<div class="shoplist" v-if="on1">
+		<div class="shoplist" v-if="on1" >
 			<div class="g-list">
 				<ul  v-infinite-scroll="loadMore"
 						
@@ -116,7 +116,10 @@
 				currentPages:1,
 				select:'select',
 				on:true,
-				on1:false
+				on1:false,
+				sale:false,
+				price:false,
+				zonghe:false
 				
 			}
 		},
@@ -180,7 +183,106 @@
 	    			// this.loading=false;
 	    		})
 			},
+			orderSale(){
+				var currentId=localStorage.getItem("storageId");
+				var order
+				var issale=this.sale;
+				// this.goodslist=[];
+				if(this.sale){
+					order=3;
+					this.sale=!issale;
+					console.log(order);
+				}else{
+					order=4;
+					this.sale=!issale;
+					console.log(order);
+				}
+				this.$axios.post('/store/newbuyer/33/goods/categoodslist.do',querystring.stringify({
+					pagenum: 1,
+					pagesize: 20,
+					goodstype: 2,
+					order: order,
+					filtershipping: 2,
+					filterprovince: 0,
+					subcategoryid: currentId,
+					
+				}))
+	    		.then((res)=>{
+	    			console.log(res);
+	    			this.goodslist=res.data.data.list;
+	    			// this.goodslist=this.goodslist.concat(res.data.data.list)
+	    			console.log(this.goodslist);
+	    		})
+	    		.catch((error)=>{
+	    			console.log(error);
+	    			// this.loading=false;
+	    		})
+			},
+			orderPrice(){
+				var currentId=localStorage.getItem("storageId");
+				var order
+				var isprice=this.price;
+				// this.goodslist=[];
+				if(this.price){
+					order=1;
+					this.price=!isprice;
+					console.log(order);
+				}else{
+					order=2;
+					this.price=!isprice;
+					console.log(order);
+				}
+				this.$axios.post('/store/newbuyer/33/goods/categoodslist.do',querystring.stringify({
+					pagenum: 1,
+					pagesize: 20,
+					goodstype: 2,
+					order: order,
+					filtershipping: 2,
+					filterprovince: 0,
+					subcategoryid: currentId,
+					
+				}))
+	    		.then((res)=>{
+	    			console.log(res);
+	    			this.goodslist=res.data.data.list;
+	    			// this.goodslist=this.goodslist.concat(res.data.data.list)
+	    			console.log(this.goodslist);
+	    		})
+	    		.catch((error)=>{
+	    			console.log(error);
+	    			// this.loading=false;
+	    		})
+			},
+			minxin(){
 
+
+				var currentId=localStorage.getItem("storageId");
+				
+				this.currentPages++
+				
+				this.loading=true;
+				this.$axios.post('/store/newbuyer/33/goods/categoodslist.do',querystring.stringify({
+					pagenum: 1,
+					pagesize: 20,
+					goodstype: 2,
+					order: 0,
+					filtershipping: 2,
+					filterprovince: 0,
+					subcategoryid: currentId,
+					
+				}))
+	    		.then((res)=>{
+	    			console.log(res);
+	    			this.goodslist=res.data.data.list;
+	    			// this.goodslist=this.goodslist.concat(res.data.data.list)
+	    			console.log(this.goodslist);
+	    			
+	    		})
+	    		.catch((error)=>{
+	    			console.log(error);
+	    			// this.loading=false;
+	    		})
+			},
 			loadMore() {
 				console.log("触发加载");
 				this.getData();
@@ -196,6 +298,11 @@
 				this.on=true;
 				this.on1=false;
 
+			},
+			gotoDetail(index){
+				localStorage.setItem('goodsId',this.goodslist[index].goodsId);
+				console.log('goodId',this.goodslist[index].goodsId);
+				this.$router.push({name:'Detail'})
 			}
 		},
 		created(){
@@ -302,7 +409,9 @@
 								width:rem(93px);
 								height:rem(93px);
 								display:inline-block;
+
 							}
+							
 						}
 						.g-list-right{
 							float:left;
