@@ -4,13 +4,13 @@
 	   		<div class="goods-detail"> 
 		    	<div class="row-goodsname"> 
 			    	 <div class="goods-name">
-			      		雀巢怡养中老年营养奶粉400g礼盒装（400g*2袋）
+			      		{{list.name}}
 			     	</div> 
 		    	</div> 
 			    <!--直降&&秒杀价格--> 
 			    <div class="row-price"> 
 				     <div class="g-price">
-				      		&yen;89.00
+				      		&yen;{{list.price}}  
 				     </div> 
 			    	<div class="i-tag">
 			      		<span>包邮</span>
@@ -20,11 +20,11 @@
 			    <div class="row-original"> 
 				    <div class="col-price"></div> 
 					<div class="g_sales">
-					      		销量2374
+					      		销量{{list.goodsSales}}
 					</div> 
 					<div class="col-invent">
 					      		库存
-					    <span>1988</span>
+					    <span>{{list.goodsInventory}}</span>
 					</div> 
 			    </div> 
 		  	</div> 
@@ -32,24 +32,57 @@
 	</div>
 </template>
 <script type="text/javascript">
+var querystring = require('querystring'); 
+
 	export default{
 		name:'Title',
 		props:['list'],
 		data(){
 			return {
-				
+				container:[]
 			}
+		},
+		methods:{
+			// getData(){
+			// 	var goodId=localStorage.getItem("goodsId");
+			// 	this.$axios.post('https://api.380star.com/newbuyer/33/goods/goodsspecinfos.do',querystring.stringify({
+			// 		goodsid: goodId,
+					
+			// 	}))
+			// 	.then((res)=>{
+			// 		console.log(res);
+			// 		this.container=res.data.data;
+			// 	})
+			// 	.catch((error)=>{
+			// 		console.log(error);
+			// 	})
+			// }
 		},
 		
 		created(){
-			console.log('123',this.list)
+			console.log('321',this.list);
+			// this.getData();
+		},
+		mounted(){
+			console.log('123',this.list);
+		},
+		// 父组件传过来的数据要在beforeUpdate，updated这里才会打印出来
+		beforeUpdate(){
+			console.log('beforeupdata',this.list);
+		},
+		updated(){
+			console.log('updata',this.list);
+
 		}
 
 	}
 </script>
 <style lang="scss" scoped>
 	.posit{
+		background-color:#fff;
 		width:rem(375px);
+		height:rem(128px);
+		padding:rem(14px) rem(0px) rem(14px) rem(0px);
 		.goods-detail{
 			width:rem(339px);
 			text-align:left;

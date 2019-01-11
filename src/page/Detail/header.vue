@@ -28,7 +28,7 @@
 		padding:rem(0px) rem(10px) rem(0px) rem(10px);
 		height:rem(50px);
 		background:#58bc58;
-		position: absolute;
+		position:fixed;
 		top:0;
 		right:0;
 		left:0;
