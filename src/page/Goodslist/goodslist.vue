@@ -305,9 +305,23 @@
 				this.$router.push({name:'Detail'})
 			}
 		},
+		beforeCreate(){
+			
+		},
+
 		created(){
-			// this.getData();
-		}
+			// this.$store.state.navShow=false;
+		},
+		beforeUpdate(){
+			// this.$store.state.navShow=false;
+		},
+		updated(){
+			this.$store.state.navShow=false;
+			
+		},
+		beforeDestroy(){
+			this.$store.state.navShow=true;
+		} 
 	}
 </script>
 <style  lang="scss" scoped>

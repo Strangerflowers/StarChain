@@ -1,5 +1,5 @@
 <template>
-	<div class="footer">
+	<div class="footer" >
 		<div class="footer-wrap ft-fixed">
 		   	<ul>
 		   	 	<li  v-for="tab in tabs" :key="tab.name"  >

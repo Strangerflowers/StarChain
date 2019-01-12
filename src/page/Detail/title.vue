@@ -60,18 +60,18 @@ var querystring = require('querystring');
 		},
 		
 		created(){
-			console.log('321',this.list);
+			// console.log('321',this.list);
 			// this.getData();
 		},
 		mounted(){
-			console.log('123',this.list);
+			// console.log('123',this.list);
 		},
 		// 父组件传过来的数据要在beforeUpdate，updated这里才会打印出来
 		beforeUpdate(){
-			console.log('beforeupdata',this.list);
+			// console.log('beforeupdata',this.list);
 		},
 		updated(){
-			console.log('updata',this.list);
+			// console.log('updata',this.list);
 
 		}
 

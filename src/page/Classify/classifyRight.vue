@@ -56,7 +56,9 @@
 <style type="text/css" lang="scss" scoped>
 	.classify_right{
 			width:rem(269px);
-			
+			height:100%;
+            margin-top:rem(51px);
+			overflow-y:scroll;
 			float:right;
 			.hot{
 				border-bottom:1px solid #ccc;

@@ -18,6 +18,8 @@
 </script>
 <style type="text/css" lang="scss" scoped>
 	.mint-search{
+		z-index:1000;
+		position:fixed;
 		background-color:#fff;
 		width:rem(375px);
 		height:rem(50px);

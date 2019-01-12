@@ -1,14 +1,14 @@
 <template>
 	<div class="head">
-		<div class="left">
-			<i class="iconfont icon-jiantou-copy"></i>
+		<div class="left" @click='golist'>
+			<i class="iconfont icon-jiantou-copy" ></i>
 		</div>
 		<div class="center">
 			<p v-show="false">商品详情</p>
 		</div>
 		<div class="right">
-			<span><i class="iconfont icon-cart" ></i></span>
-			<span><i class="iconfont icon-home"></i></span>
+			<span @click='gocart'><i class="iconfont icon-cart" ></i></span>
+			<span @click="gohome"><i class="iconfont icon-home"></i></span>
 		</div>
 	</div>
 </template>
@@ -18,6 +18,17 @@
 		data(){
 			return{
 
+			}
+		},
+		methods:{
+			golist(){
+				this.$router.push({path:'/goodslist'});
+			},
+			gohome(){
+				this.$router.push({path:'/home'});
+			},
+			gocart(){
+				this.$router.push({path:'/cart'});
 			}
 		}
 	}

@@ -3,11 +3,12 @@
 		<Head></Head>
 		<Banner :imgurl='imgurl'></Banner>
 		<Title :list='container'></Title>
-		<Promotion></Promotion>
+		<Promotion :list='limit' ></Promotion>
 		<Address></Address>
-		<Store></Store>
-		<Information></Information>
-		<Img></Img>
+		<Store :store='store'></Store>
+		<Information :list='imgs' :info='info'></Information>
+		<Dfooter @handAdd='add2cart'></Dfooter>
+		<addCart v-show='isShow'></addCart>
 	</div>
 </template>
 <script type="text/javascript">
@@ -18,7 +19,8 @@
 	import Address from './address.vue';
 	import Store from './store.vue';
 	import Information from './information.vue';
-	import Img from './detail_img.vue';
+	import addCart from './addCart.vue';
+	import Dfooter from './Dfooter.vue';
 
 	var querystring = require('querystring'); 
 
@@ -32,35 +34,66 @@
 			Address, 
 			Store,
 			Information,
-			Img
+			Dfooter,
+			addCart
 		},
 		data(){
 			return {
 				imgurl:[],
-				container:[]
+				container:[],
+				imgs:[],
+				info:[],
+				infoimg:[],
+				limit:[],
+				store:[],
+				isShow:false
 			}
 		},
 		methods:{
 			getDate(){
 				var goodId=localStorage.getItem("goodsId");
-
 				this.$axios.post("https://api.380star.com/newbuyer/33/goods/platformgoodsdetail.do",querystring.stringify({
 					goodsid: goodId
 					
 				}))
 				.then((res)=>{
-					// console.log(res);
+					console.log(res);
 					this.imgurl=res.data.data.goodsInfo.viewPicList;
 					this.container=res.data.data.goodsInfo;
-					console.log(this.container);  // 这里打印能拿到数据
+
+					this.imgs=JSON.parse(res.data.data.goodsInfo.goodsProper);
+					this.info=res.data.data.goodsInfo;
+					this.limit=res.data.data.goodsExtraInfo;
+					this.store=res.data.data.storeInfo;
+					console.log(this.info)
+					// this.limitname=res.data.data.goodsExtraInfo.limitBuyDesc;
+					// .detailInfo
+					// serviceUrl
+					var i=this.info;
+					// 获取src地址的正则
+					var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+					// console.log(i.match(srcReg));
+
+					// console.log(this.info);  // 这里打印能拿到数据
 				})
 				.catch((error)=>{
 					console.log(error);
 				})
+			},
+			add2cart(){
+				console.log(999);
+				this.isShow=true;
+				// setTimeout(()=>{
+				// 	this.isShow=false;
+				// }, 300000);
 			}
+		},
+		beforeCreate(){
+			
 		},
 		created(){
 			this.getDate();
+			// this.$store.state.navShow=false;
 			// console.log(this.container); //在这里打印得不到数据，因为ajax是异步函数，要拿到数据只能在then能保证是有数据的
 		},
 		mounted(){
@@ -68,9 +101,18 @@
 			// console.log(this.container); //在这里打印得不到数据
 			
 		},
-		// updated(){
-
-		// }
+		beforeUpdate(){
+			// this.$store.state.navShow=false;
+		},
+		
+		updated(){
+			this.$store.state.navShow=false;
+			
+		},
+		beforeDestroy(){
+			this.$store.state.navShow=true;
+		} 
+		
 	}
 </script>
 <style lang="scss" scoped>

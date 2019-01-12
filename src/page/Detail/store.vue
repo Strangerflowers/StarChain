@@ -2,10 +2,14 @@
 	<div class="store">
         <a href="store.do?storeid=88964">
             <div class="row-store">
-                <div class="item-logo"><img src="http://rs.380star.com/upload/gic/default/suppshop/33.jpg"></div>
+                <div class="item-logo"><img :src="store.shopLogo"></div>
                 <div class="item-storename">
-                    <div class="s-name"><span>怡家安徽怡达综合店</span></div>
-                    <div class="s-taglist"><span>智能设备</span><span>手机通讯</span><span>充值缴费</span></div>
+                    <div class="s-name"><span>{{store.shopName}}</span></div>
+                    <div class="s-taglist" >
+                    	<span  v-for="(info, idx) in list">{{info}}</span>
+                    	<!-- <span>手机通讯</span>
+                    	<span>充值缴费</span> -->
+                    </div>
                 </div>
             </div>
         </a>
@@ -18,6 +22,12 @@
 <script type="text/javascript">
 	export default{
 		name:'Store',
+		props:['store'],
+		computed:{
+			list(){
+				return this.store.heleStoreGcDetailList;
+			}
+		},
 		data(){
 			return {
 
