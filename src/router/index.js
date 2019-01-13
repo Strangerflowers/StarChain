@@ -25,6 +25,7 @@ const routes = [
 
 
 let router = new VueRouter({
+	 mode:'history', //加了这句能把url地址栏的#去掉
 	routes
 })
 

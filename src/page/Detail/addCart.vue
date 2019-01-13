@@ -1,6 +1,7 @@
 <template>
 	<div class="addcart">
 		<p>添加购物车成功</p>
+		<img src="https://m.380star.com/images/icon/loading_03.gif">
 	</div>
 </template>
 <script type="text/javascript">
@@ -19,7 +20,7 @@
 		width:rem(375px);
 		text-align: center;
   		vertical-align: middle;
-  		position:absolute;
+  		position:fixed;
   		top:50%;
 		p{
 			text-align:center;
@@ -33,6 +34,10 @@
 			color:#fff;
 			height:rem(50px);
 			border-radius:rem(20px);
+		}
+		img{
+			background:#f00;
+			border-radius:50%;
 		}
 
 	}

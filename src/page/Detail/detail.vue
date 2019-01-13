@@ -8,7 +8,8 @@
 		<Store :store='store'></Store>
 		<Information :list='imgs' :info='info'></Information>
 		<Dfooter @handAdd='add2cart'></Dfooter>
-		<addCart v-show='isShow'></addCart>
+		<!-- <addCart v-show='isShow'></addCart> -->
+		<Size ></Size>
 	</div>
 </template>
 <script type="text/javascript">
@@ -21,7 +22,7 @@
 	import Information from './information.vue';
 	import addCart from './addCart.vue';
 	import Dfooter from './Dfooter.vue';
-
+	import Size from './size.vue';
 	var querystring = require('querystring'); 
 
 	export default{
@@ -35,7 +36,8 @@
 			Store,
 			Information,
 			Dfooter,
-			addCart
+			addCart,
+			Size
 		},
 		data(){
 			return {
@@ -83,9 +85,12 @@
 			add2cart(){
 				console.log(999);
 				this.isShow=true;
+				// goodsId: "6001125"
+				// this.$router.push({name:'Cart',params:{userId:this.container.goodsId}})
+				// console.log('this.container.goodsId',this.container.goodsId)
 				// setTimeout(()=>{
 				// 	this.isShow=false;
-				// }, 300000);
+				// }, 2000);
 			}
 		},
 		beforeCreate(){
