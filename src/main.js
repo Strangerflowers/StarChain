@@ -7,8 +7,6 @@ import '../font/iconfont.css'
 import router from './router/index.js';
 
 
-// import './styles/base.scss';
-Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({

@@ -1,9 +1,11 @@
+
 <template>
 	<div class="page">
-	<mt-header class="hea">
+		<Search/>
+	<!--<mt-header class="hea">
       <mt-button slot="left" @click="goto('CityList')">[广州]</mt-button>
       <mt-button icon="search" slot="right" @click="goto('Search')"></mt-button>
-    </mt-header>
+    </mt-header>-->
 	<div class="carousel">
     <mt-swipe :auto="4000">
   		<mt-swipe-item><img src="../images/lunbo1.png"/></mt-swipe-item>
@@ -204,15 +206,20 @@
 </template>
 <script>
 	import Vue from 'vue';
-	import { Search } from 'mint-ui';
+//	import { Search } from 'mint-ui';
 	Vue.component(Search.name, Search);
 	import { Swipe, SwipeItem } from 'mint-ui';
-	
+//	import Search from '../../components/Search.vue';
+	import Search from '../../components/Search';
 	Vue.component(Swipe.name, Swipe);
 	Vue.component(SwipeItem.name, SwipeItem);
 	
 	var querystring = require('querystring');
 export default {
+	name:"home",
+	components:{
+		Search
+	},
     data() {
     return {
     	list:[],
@@ -301,20 +308,21 @@ export default {
 
 
 
-<style>
-.hea{
+<style lang="scss" scoped>
+/*.hea{
 	color: currentcolor;
-}
+}*/
 .mint-swipe img {
   width: 100%;
 }
 .carousel {
-  height: 160px;
+  height:rem(160px);
+ width:rem(375px);
 }
 .head{
 	width: 100%;
-	height: 70px;
-	font-size: 14px;
+	height: rem(70px);
+	font-size: rem(14px);
 }
 .head li{
 	width: 20%;
@@ -327,7 +335,7 @@ export default {
 	width: 1.14rem;
 }
 .nav ul{
-	height: 60px;
+	height: rem(60px);
 }
 .nav li{
 	height: 1.49rem;
@@ -336,7 +344,7 @@ export default {
 	width: 100%;
 }
 .hm ul{
-	height: 167px;
+	height: rem(167px);
 }
 .hm li{
 	width: 3.33rem;
@@ -348,7 +356,7 @@ export default {
 	width: 3.35rem;
 }
 .hm2 ul{
-	height: 177px;
+	height: rem(177px);
 }
 .hm2 li{
 	width: 3.33rem;
@@ -359,7 +367,7 @@ export default {
 	width: 3.35rem;
 }
 .nav2 ul{
-	height: 71px;
+	height: rem(71px);
 }
 .nav2 li{
 	height: 1.49rem;
@@ -374,14 +382,14 @@ export default {
 	float: left;
 }
 .hm3 ul{
-	height: 167px;
+	height: rem(167px);
 }
 .hm3 li img{
 	width: 100%;
 	
 }
 .hm4 ul{
-	height: 190px;
+	height: rem(190px);
 }
 .hm4 li{
 	width: 3.33rem;
@@ -392,22 +400,22 @@ export default {
 	width: 3.35rem;
 }
 .hm5 ul{
-	height: 128px;
+	height: rem(128px);
 }
 .hm5 li{
 	width: 50%;
-	height: 120px;
+	height: rem(120px);
 	list-style: none;
 	float: left;
 }
 .hm5 li img{
-	width: 188px;
+	width: rem(188px);
 }
 .hm6{
-	height: 128px;
+	height: rem(128px);
 }
 .hm6 ul{
-	height: 128px;
+	height: rem(128px);
 }
 .hm6 li{
 	width: 25%;
@@ -415,25 +423,25 @@ export default {
 	float: left;
 }
 .hm6 li img{
-	width: 95px;
+	width: rem(95px);
 }
 .hm7 ul{
-	height: 124px;
+	height: rem(124px);
 }
 .hm7 li{
 	width: 50%;
-	height: 116px;
+	height: rem(116px);
 	list-style: none;
 	float: left;
 }
 .hm7 li img{
-	width: 188px;
+	width: rem(188px);
 }
 .hm8{
-	height: 128px;
+	height: rem(128px);
 }
 .hm8 ul{
-	height: 128px;
+	height: rem(128px);
 }
 .hm8 li{
 	width: 25%;
@@ -441,25 +449,25 @@ export default {
 	float: left;
 }
 .hm8 li img{
-	width: 95px;
+	width: rem(95px);
 }
 .hm9 ul{
-	height: 128px;
+	height: rem(128px);
 }
 .hm9 li{
 	width: 50%;
-	height: 120px;
+	height: rem(120px);
 	list-style: none;
 	float: left;
 }
 .hm9 li img{
-	width: 188px;
+	width: rem(188px);
 }
 .hm10{
-	height: 128px;
+	height: rem(128px);
 }
 .hm10 ul{
-	height: 128px;
+	height: rem(128px);
 }
 .hm10 li{
 	width: 50%;
@@ -467,25 +475,25 @@ export default {
 	float: left;
 }
 .hm10 li img{
-	width: 189px;
+	width: rem(189px);
 }
 .hm11 ul{
-	height: 124px;
+	height: rem(124px);
 }
 .hm11 li{
 	width: 50%;
-	height: 118px;
+	height: rem(118px);
 	list-style: none;
 	float: left;
 }
 .hm11 li img{
-	width: 188px;
+	width: rem(188px);
 }
 .hm12{
-	height: 128px;
+	height: rem(128px);
 }
 .hm12 ul{
-	height: 128px;
+	height: rem(128px);
 }
 .hm12 li{
 	width: 50%;
@@ -493,25 +501,25 @@ export default {
 	float: left;
 }
 .hm12 li img{
-	width: 189px;
+	width: rem(189px);
 }
 .hm13 ul{
-	height: 124px;
+	height: rem(124px);
 }
 .hm13 li{
 	width: 50%;
-	height: 120px;
+	height: rem(120px);
 	list-style: none;
 	float: left;
 }
 .hm13 li img{
-	width: 188px;
+	width: rem(188px);
 }
 .hm14{
-	height: 128px;
+	height: rem(128px);
 }
 .hm14 ul{
-	height: 124px;
+	height: rem(124px);
 }
 .hm14 li{
 	width: 25%;
@@ -519,10 +527,10 @@ export default {
 	float: left;
 }
 .hm14 li img{
-	width: 95px;
+	width: rem(95px);
 }
 .nav3 ul{
-	height: 176px;
+	height: rem(176px);
 }
 .nav3 li{
 	height: 1.49rem;
@@ -531,7 +539,7 @@ export default {
 	width: 100%;
 }
 .nav4 ul{
-	height: 176px;
+	height: rem(176px);
 }
 .nav4 li{
 	height: 1.49rem;
@@ -540,7 +548,7 @@ export default {
 	width: 100%;
 }
 .nav5 ul{
-	height: 176px;
+	height: rem(176px);
 }
 .nav5 li{
 	height: 1.49rem;
@@ -549,7 +557,7 @@ export default {
 	width: 100%;
 }
 .nav6 ul{
-	height: 176px;
+	height: rem(176px);
 }
 .nav6 li{
 	height: 1.49rem;
@@ -558,7 +566,7 @@ export default {
 	width: 100%;
 }
 .nav7 ul{
-	height: 176px;
+	height: rem(176px);
 }
 .nav7 li{
 	height: 1.49rem;
@@ -567,7 +575,7 @@ export default {
 	width: 100%;
 }
 .nav8 ul{
-	height: 176px;
+	height: rem(176px);
 }
 .nav8 li{
 	height: 1.49rem;
@@ -576,7 +584,7 @@ export default {
 	width: 100%;
 }
 .nav9 ul{
-	height: 176px;
+	height: rem(176px);
 }
 .nav9 li{
 	height: 1.49rem;
@@ -585,7 +593,7 @@ export default {
 	width: 100%;
 }
 .nav10 ul{
-	height: 176px;
+	height: rem(176px);
 }
 .nav10 li{
 	height: 1.49rem;
@@ -594,7 +602,7 @@ export default {
 	width: 100%;
 }
 .nav11 ul{
-	height: 176px;
+	height: rem(176px);
 }
 .nav11 li{
 	height: 1.49rem;
@@ -603,7 +611,7 @@ export default {
 	width: 100%;
 }
 .nav12 ul{
-	height: 176px;
+	height: rem(176px);
 }
 .nav12 li{
 	height: 1.49rem;

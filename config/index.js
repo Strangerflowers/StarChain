@@ -10,7 +10,13 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+        '/store':{ //小暗号
+            target:'https://api.380star.com/',//目标服务器
+            changeOrigin:true,//是否允许代理
+            pathRewrite:{'^/store':''}// 匹配请求接口
+        }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

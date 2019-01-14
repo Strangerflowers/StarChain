@@ -31,7 +31,7 @@
   content: "\e607";
   width:0.7rem;
   height:0.7rem;
-  
+  color:#fff;
 }
 
 .icon-iconfontjiantou:before {
@@ -44,6 +44,7 @@
 
 .icon-jiantou-copy:before {
   content: "\e667";
+  color:#fff;
 }
 
 .icon-icon5:before {
@@ -68,6 +69,7 @@
 
 .icon-dianpu:before {
   content: "\e632";
+  color:#333;
 }
 
 .icon-user:before {
@@ -130,5 +132,6 @@
   content: "\e6f9";
   width:0.7rem;
   height:0.7rem;
+  color:#fff;
 }
 
