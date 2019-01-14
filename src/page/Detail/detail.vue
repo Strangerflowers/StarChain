@@ -8,8 +8,8 @@
 		<Store :store='store'></Store>
 		<Information :list='imgs' :info='info'></Information>
 		<Dfooter @handAdd='add2cart'></Dfooter>
-		<!-- <addCart v-show='isShow'></addCart> -->
-		<Size ></Size>
+		<addCart v-show='isShow'></addCart>
+		<Size  v-show='size' @close="close" @subqty="subqty" @addqty="addqty" :qty="num" :goods="goodsSize"></Size>
 	</div>
 </template>
 <script type="text/javascript">
@@ -48,7 +48,10 @@
 				infoimg:[],
 				limit:[],
 				store:[],
-				isShow:false
+				isShow:false,
+				size:false,
+				goodsSize:[],
+				num:1
 			}
 		},
 		methods:{
@@ -82,15 +85,52 @@
 					console.log(error);
 				})
 			},
+			getSize(){
+				// https://api.380star.com/newbuyer/33/goods/goodsspecinfos.do
+				var goodId=localStorage.getItem("goodsId");
+				this.$axios.post("https://api.380star.com/newbuyer/33/goods/goodsspecinfos.do",querystring.stringify({
+					goodsid: goodId
+					
+				}))
+				.then((res)=>{
+					console.log(res);
+					this.goodsSize=res.data.data.specPropName;
+					console.log('goods=',this.goodsSize)
+					
+				})
+				.catch((error)=>{
+					console.log(error);
+				})
+			},                                                              
 			add2cart(){
-				console.log(999);
-				this.isShow=true;
+				
+				
+				if(this.goodsSize==undefined){
+					console.log(999);
+					this.isShow=true;
+					setTimeout(()=>{ 
+						this.isShow=false;
+					}, 2000);
+				}else if(this.goodsSize.length>1){
+					this.size=true;
+					console.log(666);
+				}
 				// goodsId: "6001125"
 				// this.$router.push({name:'Cart',params:{userId:this.container.goodsId}})
 				// console.log('this.container.goodsId',this.container.goodsId)
-				// setTimeout(()=>{
-				// 	this.isShow=false;
-				// }, 2000);
+				// 
+			},
+			close(){
+				this.size=false;
+			},
+			subqty(){
+				if(this.num<=1){
+					return ;
+				}
+				this.num--
+			},
+			addqty(){
+				this.num++
 			}
 		},
 		beforeCreate(){
@@ -98,6 +138,7 @@
 		},
 		created(){
 			this.getDate();
+			this.getSize();
 			// this.$store.state.navShow=false;
 			// console.log(this.container); //在这里打印得不到数据，因为ajax是异步函数，要拿到数据只能在then能保证是有数据的
 		},

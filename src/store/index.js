@@ -4,7 +4,9 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
 	state:{
-		navShow:true
+		navShow:true,
+		// num:1
+
 	},
 	getter:{
 
