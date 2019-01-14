@@ -11,7 +11,7 @@
     		</ul>
     	</div>
     	<div class="classify_right" >
-    		<ClassRight  :brand="recommend" :datalist='goodslist'></ClassRight>>
+    		<ClassRight  :brand="recommend" :datalist='goodslist'></ClassRight>
     	</div>
     	
     </div>
@@ -118,9 +118,11 @@ export default {
 </script>
 <style type="text/css" lang="scss" scoped>
 	.classify{
-		
+	
 		.classify_left{
-
+            margin-top:rem(51px);
+            position:relative;
+           display:flex;
 			background-color:#f2f2f2;
 			float:left;
 			width:rem(105px);

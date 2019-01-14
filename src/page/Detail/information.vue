@@ -2,19 +2,30 @@
 	<div class="information">
         <div class="ui-tab" >
             <ul class="ui-tab-nav" id="detailTabNav">
-                <li class="on">图文详情</li>
-                <li class="">产品参数</li>
-                <li class="">售后服务</li>
+                <li :class="sele==idx?'on':''" v-for="(tab, idx) in tabs" @click="goto(idx)" >{{tab}}</li>
             </ul>
         </div>
+        <Img :imgs='list' :idx='sele' :info1='info'></Img>
     </div>
 </template>
 <script type="text/javascript">
+import Img from './detail_img.vue';
 	export default{
 		name:"Information",
+		props:['list','info'],
+		components:{
+			Img,
+		},
 		data(){
 			return{
-
+				tabs:['图文详情','产品参数','售后服务'],
+				sele:0
+			}
+		},
+		methods:{
+			goto(idx){
+				this.sele=idx;
+				return idx;
 			}
 		}
 	}

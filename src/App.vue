@@ -2,7 +2,11 @@
   <div id="app">
     <!-- <img src="./assets/logo.png"> -->
     <router-view/>
+<<<<<<< HEAD
      <Footer/> 
+=======
+    <Footer  v-show="this.$store.state.navShow"></Footer>
+>>>>>>> 6dfe8267e733aa2f252a7ca1e661214e425c96c3
   </div>
 </template>
 
@@ -61,6 +65,9 @@ export default {
     Cart,
     User,
     Footer
+  },
+  created(){
+     console.log(this.$store)
   }
 }
 </script>
