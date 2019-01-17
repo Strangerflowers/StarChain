@@ -58,6 +58,7 @@
 				background:rgba(0,0,0,0.3);
 				border-radius:50%;
 				line-height:rem(40px);
+				color:#fff;
 			}
 		}
 		.right{
@@ -72,6 +73,17 @@
 				border-radius:50%;
 				line-height:rem(40px);
 			}
+			.icon-cart{
+				width:0.7rem;
+  				height:0.7rem;
+  				color:#fff;
+			}
+			.icon-home{
+  			content: "\e6f9";
+			width:0.7rem;
+			height:0.7rem;
+			color:#fff;
+}
 		}
 	}
 </style>

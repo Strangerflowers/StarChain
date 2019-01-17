@@ -57,7 +57,7 @@
 		methods:{
 			getDate(){
 				var goodId=localStorage.getItem("goodsId");
-				this.$axios.post("https://api.380star.com/newbuyer/33/goods/platformgoodsdetail.do",querystring.stringify({
+				this.$axios.post("http://api.380star.com/newbuyer/33/goods/platformgoodsdetail.do",querystring.stringify({
 					goodsid: goodId
 					
 				}))
@@ -88,7 +88,7 @@
 			getSize(){
 				// https://api.380star.com/newbuyer/33/goods/goodsspecinfos.do
 				var goodId=localStorage.getItem("goodsId");
-				this.$axios.post("https://api.380star.com/newbuyer/33/goods/goodsspecinfos.do",querystring.stringify({
+				this.$axios.post("http://api.380star.com/newbuyer/33/goods/goodsspecinfos.do",querystring.stringify({
 					goodsid: goodId
 					
 				}))

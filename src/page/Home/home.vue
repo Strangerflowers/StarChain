@@ -255,7 +255,7 @@ export default {
 	methods:{
     	getData(){
     		
-    		this.$axios.post('https://api.380star.com/newbuyer/33/goods/homead3.do',querystring.stringify({
+    		this.$axios.post('http://api.380star.com/newbuyer/33/goods/homead3.do',querystring.stringify({
 				
 				version:3.7,
 				t_id:1547122912018,
