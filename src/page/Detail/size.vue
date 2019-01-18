@@ -260,6 +260,7 @@
 					bottom:0;
 					border-top:1px solid #ccc;
 					text-align:left;
+					background:#fff;
 					.btn-top{
 						width:rem(339px);
 						height:rem(28px);

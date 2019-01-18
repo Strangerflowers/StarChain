@@ -36,9 +36,9 @@
 		    								￥<span>1255</span>
 		    							</div>
 		    							<div class="goods-qty">
-		    								<input type="button" class="sub"  value="-"name="">
-		    								<input type="button" class="cart-qty"  value="1"name="">
-		    								<input type="button" class="add"  value="+"name="">
+		    								<input type="button" class="sub"  value="-" name="">
+		    								<input type="button" class="cart-qty"  value="1" name="">
+		    								<input type="button" class="add"  value="+" name="">
 		    							</div>
 		    						</div>
 		    					</div>
@@ -63,9 +63,20 @@ export default {
     	return{       
 
     	}
-    },
+	},
+	methods:{
+		getGoods(){
+			this.$axios.post('http://localhost:3000/goods/getGoods')
+			.then((res)=>{
+				console.log(res);
+			})
+			.catch((error)=>{
+				console.log(error);
+			})
+		}
+	},
     created(){
-    	// console.log(this.$route.params.userId)
+    	this.getGoods();
     }
 }
 </script>

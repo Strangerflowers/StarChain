@@ -7,7 +7,12 @@
 			<p v-show="false">商品详情</p>
 		</div>
 		<div class="right">
-			<span @click='gocart'><i class="iconfont icon-cart" ></i></span>
+			
+			<span class="cart-count" @click='gocart'><i class="iconfont icon-cart" ></i>
+			<!-- <mt-badge size="small" color="#888">10</mt-badge> -->
+			<i class="count">10</i>
+			</span>
+			
 			<span @click="gohome"><i class="iconfont icon-home"></i></span>
 		</div>
 	</div>
@@ -73,15 +78,33 @@
 				border-radius:50%;
 				line-height:rem(40px);
 			}
+			.cart-count{
+				position:relative;
+				.count{
+					width:rem(20px);
+					height:rem(20px);
+					font-size:rem(12px);
+					border-radius:rem(50px);
+					line-height:rem(18px);
+					background-color:rgb(136, 136, 136);
+					position: absolute;
+					right: rem(64px);
+					top: rem(10px);
+					color:#fff;
+					background: #f00;
+					position: absolute;
+					right: rem(8px);
+					top: rem(10px);
+				}
+			}
 			.icon-cart{
-				width:0.7rem;
-  				height:0.7rem;
+				
   				color:#fff;
+			
 			}
 			.icon-home{
   			content: "\e6f9";
-			width:0.7rem;
-			height:0.7rem;
+			
 			color:#fff;
 }
 		}

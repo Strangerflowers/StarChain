@@ -18,6 +18,17 @@ var app = express();
 
 
 
+ app.get("/",(req,res)=>{
+        // cors
+        res.append("Access-Control-Allow-Origin","*");
+        request.get("https://api.380star.com/newbuyer/33/goods/searchKeywordList.do",(err,response,body)=>{
+            console.log(body);
+            res.send(body);
+        })
+         
+    })
+
+
 
 
 // 	app.get("/",(req,res)=>{

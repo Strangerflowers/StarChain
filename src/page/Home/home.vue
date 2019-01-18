@@ -1,7 +1,7 @@
 
 <template>
 	<div class="page">
-		<Search/>
+		<Hheader/>
 	<!--<mt-header class="hea">
       <mt-button slot="left" @click="goto('CityList')">[广州]</mt-button>
       <mt-button icon="search" slot="right" @click="goto('Search')"></mt-button>
@@ -207,10 +207,10 @@
 <script>
 	import Vue from 'vue';
 //	import { Search } from 'mint-ui';
-	Vue.component(Search.name, Search);
+	// Vue.component(Search.name, Search);
 	import { Swipe, SwipeItem } from 'mint-ui';
-//	import Search from '../../components/Search.vue';
-	import Search from '../../components/Search';
+	import Hheader from '../../components/Hheader.vue';
+	// import Search from '../../components/Search';
 	Vue.component(Swipe.name, Swipe);
 	Vue.component(SwipeItem.name, SwipeItem);
 	
@@ -218,7 +218,7 @@
 export default {
 	name:"home",
 	components:{
-		Search
+		Hheader
 	},
     data() {
     return {
