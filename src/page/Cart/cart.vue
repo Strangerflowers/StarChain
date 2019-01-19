@@ -1,6 +1,17 @@
 <template>
     <div class="cart">
-    	<Aheader></Aheader>
+    	<div class="head">
+			<div class="left">
+				
+			</div>
+			<div class="center">
+				<p >购物车</p>
+			</div>
+			<div class="right" @click="change">
+				<p  v-show="show">编辑</p>
+				<p  v-show="!show">完成</p>	
+			</div>
+		</div>
     	<div class="cart-shop">
     		<ul>
     			<li>
@@ -18,27 +29,27 @@
 		    		</div>
 		    		<div class="cart-list">
 		    			<ul class="same-store">
-		    				<li >
+		    				<li  v-for="(list ,idx) in cartList" :key="list.id"  @click="selectGood(idx)" :class="{'sele':isActive(idx)}">
 		    					<div class="goods-check">
-		    						<input type="checkbox" name="">
+		    						<input type="checkbox" v-model="selected" :value="idx" >
 		    					</div>
 		    					<div class="goods-imgurl">
-		    						<img src="http://img.365hele.com/upload/31752/store/1215/75c122fb-0f78-41ce-b9e1-f2f5b1610e92.jpg">
+		    						<img :src="list.imgpath">
 		    					</div>
 		    					<div class="goods-cont">
-		    						<div class="goods-name">2017年冬季新款2017年冬季新款2017年冬季新款2017年冬季新款</div>
+		    						<div class="goods-name">{{list.name}}</div>
 		    						<div class="goods-center">
 		    							颜色 <span>灰色</span>,
 		    							尺码  <span>M</span>	
 		    						</div>
 		    						<div class="goods-bottom">
 		    							<div class="goods-price">
-		    								￥<span>1255</span>
+		    								￥<span>{{list.price}}</span>
 		    							</div>
 		    							<div class="goods-qty">
-		    								<input type="button" class="sub"  value="-" name="">
-		    								<input type="button" class="cart-qty"  value="1" name="">
-		    								<input type="button" class="add"  value="+" name="">
+		    								<input type="button" class="sub" @click.stop="sub(idx)"  value="-" name="">
+		    								<input type="button" class="cart-qty"  v-model="list.stock" name="">
+		    								<input type="button" class="add"  value="+"  @click.stop="add(idx)" >
 		    							</div>
 		    						</div>
 		    					</div>
@@ -50,30 +61,165 @@
     		</ul>
     		
     	</div>
+		<div class="Cfooter">
+			<div class="sele">
+				<input type="checkbox" class="seleAll" v-model="checkAll">
+				<span>全选</span>
+			</div>
+			<div class="total" v-show="show">
+				<p class="jiege">价格</p>
+				<p class="sele-r">
+					<span class="selePrice">￥125</span><br>
+					<span class="not">不含运费</span>
+				</p>			
+			</div>
+			<div class="Settlement" :class="show?'':'dsp'" >
+				<p v-show="show">结算<span>(125)</span></p>
+				<p  v-show="!show" @click.stop="remove()">删除</p>
+			</div>
+			
+		</div>
     </div>
 </template>
 <script>
 import Aheader from '../../components/Aheader.vue';
+var querystring = require('querystring'); 
+
 export default {
     name:'Cart',
     components:{
     	Aheader
-    },
+	},
+	
     data(){
     	return{       
-
+			cartList:[],
+			num:1,
+			show:true,
+			// checkAll:false,
+			selected:[],//checkAll=false  :[] ;checkAll=true :[0,1,2,3...]写满
     	}
+	},
+	computed:{
+
+		checkAll:{
+			get(){
+				if(this.selected.length==this.cartList.length){
+					return true
+				}else{
+					return false
+				}
+			},
+			set(checked){
+				if(checked){
+					this.selected=this.cartList.map((item,idx)=>idx);
+				}else{
+					this.selected=[];
+				}
+			}
+			
+		}
 	},
 	methods:{
 		getGoods(){
 			this.$axios.post('http://localhost:3000/goods/getGoods')
 			.then((res)=>{
 				console.log(res);
+				this.cartList=res.data.data.goodslist;
 			})
 			.catch((error)=>{
 				console.log(error);
 			})
-		}
+		},
+		selectGood(idx){
+			let i=this.selected.indexOf(idx);
+			if(i>=0){
+				this.selected.splice(i,1);
+			}else{
+				this.selected.push(idx);
+			}
+		},
+		isActive(idx){
+			return this.selected.includes(idx)
+		},
+		add(index){
+			var goodslist=this.cartList;
+			goodslist[index].stock=goodslist[index].stock+1
+			console.log(this.cartList);
+			var id=this.cartList[index]._id;
+			var name=this.cartList[index].name;
+			var	type=this.cartList[index].type;
+			var	desc=this.cartList[index].desc;
+			var	price=this.cartList[index].price;
+			var	imgpath=this.cartList[index].imgpath;
+			var	stock=goodslist[index].stock;
+			// console.log(id,name,type,desc,price,imgpath,stock);
+			this.$axios.post('http://localhost:3000/goods/updateGoods',querystring.stringify({
+				id:id,
+				name:name,
+				type:type,
+				desc:desc,
+				price:price,
+				imgpath:imgpath,
+				stock:stock
+			}))
+			.then((res)=>{
+				console.log(res);
+				// this.setState({
+				// 	list:res.data.data
+				// })
+				this.cartList=res.data.data;
+				console.log(this.cartList)
+			})
+			.catch((error)=>{
+				console.log(error)
+			})
+		},
+		sub(index){
+			var goodslist=this.cartList;
+			if(goodslist[index].stock>1){
+				goodslist[index].stock=goodslist[index].stock-1
+
+			}else{
+				return 
+			}
+			var id=this.cartList[index]._id;
+			var name=this.cartList[index].name;
+			var	type=this.cartList[index].type;
+			var	desc=this.cartList[index].desc;
+			var	price=this.cartList[index].price;
+			var	imgpath=this.cartList[index].imgpath;
+			var	stock=goodslist[index].stock;
+			// console.log(id,name,type,desc,price,imgpath,stock);
+			this.$axios.post('http://localhost:3000/goods/updateGoods',querystring.stringify({
+				id:id,
+				name:name,
+				type:type,
+				desc:desc,
+				price:price,
+				imgpath:imgpath,
+				stock:stock
+			}))
+			.then((res)=>{
+				console.log(res);
+				// this.setState({
+				// 	list:res.data.data
+				// })
+				this.cartList=res.data.data;
+				console.log(this.cartList)
+			})
+			.catch((error)=>{
+				console.log(error)
+			})
+		},
+		change(){
+			var isShow=this.show;
+			this.show=!isShow;
+		},
+		remove(){
+			this.selectGood();
+			
+		},
 	},
     created(){
     	this.getGoods();
@@ -86,9 +232,87 @@ export default {
 		padding-top:rem(50px);
 		width:rem(375px);
 		height:rem(100px);
+		.head{
+			background:#fff;
+			width:rem(375px);
+			padding:rem(0px) rem(10px) rem(0px) rem(10px);
+			height:rem(50px);
+			background:#58bc58;
+			position:fixed;
+			top:0;
+			right:0;
+			left:0;
+			z-index:1000;
+			background:rgba(255, 255,255, 0.1);
+			display:flex;
+			justify-content: space-between;
+			font-size:rem(18px);
+			line-height:rem(50px);
+			.left{
+				width:rem(38px);
+				height:rem(50px);
+				.icon-jiantou-copy{
+					height:rem(38px);
+					width:rem(38px);
+					display:inline-block;
+					background:#ccc;
+					background:rgba(0,0,0,0.3);
+					border-radius:50%;
+					line-height:rem(40px);
+					color:#fff;
+				}
+			}
+			.right{
+				width:rem(91px);
+				height:rem(50px);
+				.iconfont{
+					height:rem(38px);
+					width:rem(38px);
+					display:inline-block;
+					background:#ccc;
+					background:rgba(0,0,0,0.3);
+					border-radius:50%;
+					line-height:rem(40px);
+				}
+				.cart-count{
+					position:relative;
+					.count{
+						width:rem(20px);
+						height:rem(20px);
+						font-size:rem(12px);
+						border-radius:rem(50px);
+						line-height:rem(18px);
+						background-color:rgb(136, 136, 136);
+						position: absolute;
+						right: rem(64px);
+						top: rem(10px);
+						color:#fff;
+						background: #f00;
+						position: absolute;
+						right: rem(8px);
+						top: rem(10px);
+					}
+				}
+				.icon-cart{
+					
+					color:#fff;
+				
+				}
+				.icon-home{
+					content: "\e6f9";
+							
+					color:#fff;
+				}
+			}
+		}
 		.cart-shop{
+			height:100%;
+			display:inline-block;
 			ul{
+				display:inline-block;
+				margin-bottom:rem(150px);
 				li{
+
 					.shop-head{
 						display: flex;
 						justify-content:space-between;
@@ -108,7 +332,7 @@ export default {
 								display:inline-block;
 								border:1px solid #ccc;
 								border-radius:rem(50px);
-								background:#fff;
+								// background:#fff;
 							}
 						}
 						.head-title{
@@ -124,6 +348,8 @@ export default {
 						}
 					}
 					.cart-list{
+						// padding-bottom:rem(150px);
+
 						.same-store{
 							width:rem(375px);
 							height:rem(133px);
@@ -208,9 +434,78 @@ export default {
 									}
 								}
 							}
+							.sele{
+								background:#eee;
+								
+							}
 						}
 					}
 				}
+			}
+		}
+		.Cfooter{
+			border-top:1px solid #ccc;
+			border-top:1px solid #ccc;
+			background:#fff;
+			width:rem(375px);
+			height:rem(50px);
+			padding-left:rem(10px);
+			display:flex;
+			justify-content:space-between;
+			align-items:center;
+			position:fixed;
+			bottom:rem(55px);
+			left:0;
+			right:0;
+			.sele{
+				font-size:rem(14px);
+				line-height:rem(50px);
+				input{
+					width:rem(30px);
+					height:rem(27px);
+					border:1px solid #ccc;
+					// background:#fff;
+					width:rem(62px);
+				}
+			}
+			.total{
+				font-size:rem(14px);
+				// line-height:rem(50px);
+				color:#666;
+				width:rem(117px);
+				height:rem(51px);
+				.jiege{
+					height:rem(51px);
+					line-height:rem(51px);
+					font-size:rem(16px);
+					color:#333;
+					display:inline-block;
+				}
+				.sele-r{
+					height:rem(51px);
+					// line-height:rem(20px);
+					display:inline-block;
+					
+					span{
+						display:inline-block;
+						line-height:rem(20px);
+					}
+					.selePrice{
+						color:#fa5e71;
+						font-size:rem(16px);
+					}
+				}
+			}
+			.Settlement{
+				font-size:rem(18px);
+				line-height:rem(50px);
+				color:#fff;
+				width:rem(125px);
+				height:rem(51px);
+				background:#fa5e71;
+			}
+			.dsp{
+				background:#999;
 			}
 		}
 	}

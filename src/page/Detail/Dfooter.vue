@@ -7,7 +7,7 @@
             <li class="info-li shou">
                 <a href="javascript:;" class="icon-collect"><i></i><span>收藏</span></a>
             </li>
-            <li class="btn-item  add"  @click='add'><a href="javascript:;" class="btn-buy btn-addcart">加入购物车</a></li>
+            <li class="btn-item  add"  @click='add'><a href="javascript:;" class="btn-buy btn-addcart" @click="add2Cart">加入购物车</a></li>
             <li class="btn-item"><a href="javascript:;" class="btn-active">立即购买</a></li>
         </ul>
     </footer>
@@ -15,6 +15,7 @@
 <script type="text/javascript">
 	export default{
 		name:'Dfooter',
+		props:['list','size'],
 		data(){
 			return{
 
@@ -23,6 +24,16 @@
 		methods:{
 			add(){
 				this.$emit('handAdd');
+			},
+			add2Cart(){
+				// name:{type:String,required:true},
+				// user:{type:String,required:true},
+				// type:{type:String,required:true},
+				// price:{type:Number,required:true},
+				// imgurl:{type:String,required:true},
+				// qty:{type:Number,required:true},
+				// size:{type:String,required:false},
+				// color:{type:String,required:false}
 			}
 		}
 	}

@@ -7,7 +7,7 @@
 		<Address></Address>
 		<Store :store='store'></Store>
 		<Information :list='imgs' :info='info'></Information>
-		<Dfooter @handAdd='add2cart'></Dfooter>
+		<Dfooter @handAdd='add2cart' :list='container' :size='goodsSize'></Dfooter>
 		<addCart v-show='isShow'></addCart>
 		<Size  v-show='size' @close="close" @subqty="subqty" @addqty="addqty" :qty="num" :goods="goodsSize"></Size>
 	</div>

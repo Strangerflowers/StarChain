@@ -1,35 +1,101 @@
 
-
-//引入express和request
-var express = require('express');
-var request = require('request');
-const path =require('path');
-const bodyParser = require('body-parser');
-
-
-
+const express=require('express');
+var request = require("request");
+const bodyParser=require('body-parser')
+// const email=require('./sendmail.js')
+const path=require('path')
 //定义后端静态服务器 
 var app = express();
 
-// 静态资源目录
- app.use('/dist',express.static(path.join(__dirname,'./dist')));
- app.use(express.static(path.join(__dirname,'./img')));
+const db=require('./src/mongodb/model/mongodb_connect.js');
+
+app.use(bodyParser.urlencoded({ extended: false }))
+
+
+// 引入路由
+// 开启静态服务
+
+app.use(express.static(path.join(__dirname,'./src')))
+
+const goodsRouter=require('./src/mongodb/router/goods.js');
+
+
+// 使用路由
+// app.use('/admin',adminRouter);
+app.use('/goods',goodsRouter);
+
+
+app.listen(3010);
 
 
 
 
- app.get("/",(req,res)=>{
-        // cors
-        res.append("Access-Control-Allow-Origin","*");
-        request.get("https://api.380star.com/newbuyer/33/goods/searchKeywordList.do",(err,response,body)=>{
-            console.log(body);
-            res.send(body);
-        })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// // 服务器代理解决跨域问题
+// app.get("/good/getGoods",(req,res)=>{
+//     // cors
+//     res.append("Access-Control-Allow-Origin","*");
+
+//     request.get("http://localhost:3010/goods/getGoods",(err,response,body)=>{
+//         console.log(body);
+//         res.send(body);
+//     })
+     
+// })
+
+// app.all('*', (request, response, next) => {
+//     response.setHeader('Access-Control-Allow-Origin', '*');
+//     response.setHeader('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requeted-With');
+//     response.setHeader('Access-Control-Allow-Methods', 'GET,POST, PUT, DELETE, OPTIONS');
+
+//     if (request.method === 'OPTIONS') {
+//         response.sendStatus(200);
+//     } else {
+//         next();
+//     }
+// });
+
+
+// const adminRouter=require('./router/admin.js');
+
+
+
+
+
+
+
+// // 静态资源目录
+//  app.use('/dist',express.static(path.join(__dirname,'./dist')));
+//  app.use(express.static(path.join(__dirname,'./img')));
+
+
+
+
+//  app.get("/",(req,res)=>{
+//         // cors
+//         res.append("Access-Control-Allow-Origin","*");
+//         request.get("https://api.380star.com/newbuyer/33/goods/searchKeywordList.do",(err,response,body)=>{
+//             console.log(body);
+//             res.send(body);
+//         })
          
-    })
-
-
-
+//     })
 
 // 	app.get("/",(req,res)=>{
 // 		//设置跨域权限
@@ -57,5 +123,5 @@ var app = express();
 // });
 
 
-app.listen(3000);
+
 

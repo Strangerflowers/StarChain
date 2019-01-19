@@ -103,10 +103,10 @@
 			
 			}
 			.icon-home{
-  			content: "\e6f9";
-			
-			color:#fff;
-}
+				content: "\e6f9";
+						
+				color:#fff;
+			}
 		}
 	}
 </style>
