@@ -56,7 +56,8 @@
 		},
 		methods:{
 			getDate(){
-				var goodId=localStorage.getItem("goodsId");
+				// var goodId=localStorage.getItem("goodsId");
+				var goodId=this.$route.params.goodsId;
 				this.$axios.post("http://api.380star.com/newbuyer/33/goods/platformgoodsdetail.do",querystring.stringify({
 					goodsid: goodId
 					
@@ -87,7 +88,9 @@
 			},
 			getSize(){
 				// https://api.380star.com/newbuyer/33/goods/goodsspecinfos.do
-				var goodId=localStorage.getItem("goodsId");
+				// var goodId=localStorage.getItem("goodsId");
+				var goodId=this.$route.params.goodsId;
+
 				this.$axios.post("http://api.380star.com/newbuyer/33/goods/goodsspecinfos.do",querystring.stringify({
 					goodsid: goodId
 					
@@ -139,6 +142,7 @@
 		created(){
 			this.getDate();
 			this.getSize();
+			console.log('this.$router.params',this.$route.params.goodsId)
 			// this.$store.state.navShow=false;
 			// console.log(this.container); //在这里打印得不到数据，因为ajax是异步函数，要拿到数据只能在then能保证是有数据的
 		},

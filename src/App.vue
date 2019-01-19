@@ -64,9 +64,27 @@ export default {
     User,
     Footer
   },
+  data:{
+
+  },
+  methods:{
+    // handleScroll(){
+    //   var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+    //     console.log('app=',scrollTop);
+    //     if(scrollTop>500){
+    //       this.scroll=true;
+    //     }else{
+    //       this.scroll=false;
+    //     }
+    // },
+  },
   created(){
      console.log(this.$store)
-  }
+  },
+  mounted(){
+    // window.addEventListener('scroll', this.handleScroll)
+	},
+
 }
 </script>
 

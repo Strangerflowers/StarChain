@@ -38,7 +38,7 @@
 				<ul  v-infinite-scroll="loadMore"
 						
 						infinite-scroll-distance="10">
-					<li v-for="(good, index) in goodslist" :key="index" @click="gotoDetail(index)">
+					<li v-for="(good, index) in goodslist" :key="index" @click="gotoDetail(good.goodsId)">
 						<div class="g-list-left">
 							<img   v-lazy.container="good.goodsLogo"  >
 						</div>
@@ -95,10 +95,12 @@
 				</ul>
 			</div>
 		</div>
+		<ToTop :scroll='scroll' @Totop="top"></ToTop>
 	</div>
 </template>
 <script type="text/javascript">
 	import Aheacder from '../../components/Aheader';
+	import ToTop from '../../components/toTop.vue';
 	import Vue from 'vue';
 	// 无限滚动
 	import { InfiniteScroll } from 'mint-ui';
@@ -110,8 +112,8 @@
 		name:'Goods',
 		components:{
 			// Search
-			Aheacder
-			// Head
+			Aheacder,
+			ToTop
 		},
 		data(){
 			return {
@@ -123,7 +125,8 @@
 				on1:false,
 				sale:false,
 				price:false,
-				zonghe:false
+				zonghe:false,
+				scroll:false
 				
 			}
 		},
@@ -303,11 +306,55 @@
 				this.on1=false;
 
 			},
-			gotoDetail(index){
-				localStorage.setItem('goodsId',this.goodslist[index].goodsId);
-				console.log('goodId',this.goodslist[index].goodsId);
-				this.$router.push({name:'Detail'})
+			gotoDetail(id){
+				// localStorage.setItem('goodsId',this.goodslist[index].goodsId);
+				// console.log('goodId',this.goodslist[index].goodsId);
+				this.$router.push({name:'Detail',params:{goodsId:id}})
+			},
+			handleScroll(){
+				var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+				//   console.log('y=',scrollTop);
+				  if(scrollTop>500){
+					  this.scroll=true;
+				  }else{
+					  this.scroll=false;
+				  }
+			},
+			//  点击回到顶部方法，加计时器是为了过渡顺滑
+			top(){
+				document.documentElement.scrollTop = document.body.scrollTop =0;
+				// clearInterval(timer)
+				// let that = this
+				// let timer = setInterval(() => {
+				// 	let ispeed = Math.floor(-that.scrollTop / 20)
+				// 	document.documentElement.scrollTop = document.body.scrollTop = that.scrollTop + ispeed
+				// 	if (that.scrollTop === 0) {
+				// 	clearInterval(timer);
+				// 	 this.scroll=false;
+				// 	}
+				// }, 16)
 			}
+			// handleScroll () {
+			// 	var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+			// 	var offsetTop = document.querySelector('#searchBar').offsetTop
+			// 	if (scrollTop > offsetTop) {
+			// 		this.searchBarFixed = true
+			// 	} else {
+			// 		this.searchBarFixed = false
+			// 	}
+			//},
+			// 点击图片回到顶部方法，加计时器是为了过渡顺滑
+			// backTop () {
+			// 	let that = this
+			// 	let timer = setInterval(() => {
+			// 		let ispeed = Math.floor(-that.scrollTop / 5)
+			// 		document.documentElement.scrollTop = document.body.scrollTop = that.scrollTop + ispeed
+			// 		if (that.scrollTop === 0) {
+			// 		clearInterval(timer)
+			// 		}
+			// 	}, 16)
+			// },
+
 		},
 		beforeCreate(){
 			
@@ -315,6 +362,9 @@
 
 		created(){
 			// this.$store.state.navShow=false;
+		},
+		mounted(){
+			window.addEventListener('scroll', this.handleScroll)
 		},
 		beforeUpdate(){
 			// this.$store.state.navShow=false;
@@ -325,7 +375,10 @@
 		},
 		beforeDestroy(){
 			this.$store.state.navShow=true;
-		} 
+		} ,
+		destroyed () {
+			window.removeEventListener('scroll', this.handleScroll)
+		},
 	}
 </script>
 <style  lang="scss" scoped>

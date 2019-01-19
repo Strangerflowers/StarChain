@@ -202,12 +202,14 @@
 			</li>
 		</ul>
 	</div>
+	 <ToTop :scroll='scroll'  @Totop="top" ></ToTop>
 	</div>
 </template>
 <script>
 	import Vue from 'vue';
 //	import { Search } from 'mint-ui';
 	// Vue.component(Search.name, Search);
+	import ToTop from '../../components/toTop.vue';
 	import { Swipe, SwipeItem } from 'mint-ui';
 	import Hheader from '../../components/Hheader.vue';
 	// import Search from '../../components/Search';
@@ -218,11 +220,13 @@
 export default {
 	name:"home",
 	components:{
-		Hheader
+		Hheader,
+		ToTop
 	},
     data() {
     return {
-    	list:[],
+		list:[],
+		scroll:false,
     	title:[],
     	hm:[],
     	hm2:[],
@@ -297,11 +301,30 @@ export default {
     		.catch((error)=>{
     			console.log(error);
     		})
-    	}
-    },
+		},
+		handleScroll(){
+			var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+			// console.log('y=',scrollTop);
+			if(scrollTop>500){
+				this.scroll=true;
+			}else{
+				this.scroll=false;
+			}
+		},
+		top(){
+			document.documentElement.scrollTop = document.body.scrollTop =0;
+		}
+	},
+	
     created(){
     	this.getData();
-    }
+	},
+	mounted(){
+		window.addEventListener('scroll', this.handleScroll)
+	},
+	destroyed () {
+		window.removeEventListener('scroll', this.handleScroll)
+	},
     
 }
 </script>
