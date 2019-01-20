@@ -69,12 +69,12 @@
 			<div class="total" v-show="show">
 				<p class="jiege">价格</p>
 				<p class="sele-r">
-					<span class="selePrice">￥125</span><br>
+					<span class="selePrice">￥{{total}}</span><br>
 					<span class="not">不含运费</span>
 				</p>			
 			</div>
 			<div class="Settlement" :class="show?'':'dsp'" >
-				<p v-show="show">结算<span>(125)</span></p>
+				<p v-show="show">结算<span>({{total}})</span></p>
 				<p  v-show="!show" @click.stop="remove()">删除</p>
 			</div>
 			
@@ -99,6 +99,7 @@ export default {
 			// checkAll:false,
 			selected:[],//checkAll=false  :[] ;checkAll=true :[0,1,2,3...]写满
 			len:'',//购物车数量
+			total:0
     	}
 	},
 	computed:{
@@ -114,11 +115,11 @@ export default {
 			set(checked){
 				if(checked){
 					this.selected=this.cartList.map((item,idx)=>idx);
+					
 				}else{
 					this.selected=[];
 				}
 			}
-			
 		}
 	},
 	methods:{
@@ -135,11 +136,15 @@ export default {
 			})
 		},
 		selectGood(idx){
+			// let total=0;
 			let i=this.selected.indexOf(idx);
+			// 如果i>0，也就是说该商品原本就在数组中，所以当再次点击的时候要将改商品从数组中移除
 			if(i>=0){
 				this.selected.splice(i,1);
+				this.total-=this.cartList[idx].qty*this.cartList[idx].price;
 			}else{
 				this.selected.push(idx);
+				this.total+=this.cartList[idx].qty*this.cartList[idx].price;
 			}
 		},
 		isActive(idx){
@@ -220,8 +225,23 @@ export default {
 			this.show=!isShow;
 		},
 		remove(){
-			this.selectGood();
-			
+			console.log(this.selected)
+			for(var i=0;i<this.selected.length;i++){
+
+				this.$axios.post('http://localhost:3010/goods/delGood',querystring.stringify({
+					id:this.cartList[this.selected[i]].id,
+				}))
+				.then((res)=>{
+					console.log(res);
+				})
+				.catch((error)=>{
+					console.log(error);
+				})
+				console.log(123456789)
+
+			}
+			// 刷新页面
+			location.reload()
 		},
 	},
     created(){

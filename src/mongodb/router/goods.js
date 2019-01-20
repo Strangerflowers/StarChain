@@ -127,7 +127,7 @@ Router.post('/delGood',(req,res)=>{
 // 执行修改
 	let id=req.body.id;
 	console.log(id);
-	Goods.deleteMany({_id:id})
+	Goods.deleteMany({id:id})
 	.then((data)=>{
 		// res.send(data)
 		res.send({err:0,msg:'删除成功',data:null})
