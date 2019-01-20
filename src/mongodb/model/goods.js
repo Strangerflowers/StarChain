@@ -1,9 +1,9 @@
 const mongoose=require('mongoose');
 let Schema=mongoose.Schema;
 let goodsSchema=new Schema({
+    id:{type:Number,required:true},
     name:{type:String,required:true},
     user:{type:String,required:true},
-	type:{type:String,required:true},
 	price:{type:Number,required:true},
 	imgurl:{type:String,required:true},
 	qty:{type:Number,required:true},

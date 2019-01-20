@@ -10,7 +10,7 @@
 			
 			<span class="cart-count" @click='gocart'><i class="iconfont icon-cart" ></i>
 			<!-- <mt-badge size="small" color="#888">10</mt-badge> -->
-			<i class="count">10</i>
+			<i class="count">{{len}}</i>
 			</span>
 			
 			<span @click="gohome"><i class="iconfont icon-home"></i></span>
@@ -20,6 +20,7 @@
 <script type="text/javascript">
 	export default{
 		name:'Head',
+		props:['len'],
 		data(){
 			return{
 

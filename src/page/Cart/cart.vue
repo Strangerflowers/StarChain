@@ -34,13 +34,13 @@
 		    						<input type="checkbox" v-model="selected" :value="idx" >
 		    					</div>
 		    					<div class="goods-imgurl">
-		    						<img :src="list.imgpath">
+		    						<img :src="list.imgurl">
 		    					</div>
 		    					<div class="goods-cont">
 		    						<div class="goods-name">{{list.name}}</div>
-		    						<div class="goods-center">
-		    							颜色 <span>灰色</span>,
-		    							尺码  <span>M</span>	
+		    						<div class="goods-center" v-show="list.color||list.size">
+		    							颜色 <span>{{list.color}}</span>,
+		    							尺码  <span>{{list.size}}</span>	
 		    						</div>
 		    						<div class="goods-bottom">
 		    							<div class="goods-price">
@@ -48,7 +48,7 @@
 		    							</div>
 		    							<div class="goods-qty">
 		    								<input type="button" class="sub" @click.stop="sub(idx)"  value="-" name="">
-		    								<input type="button" class="cart-qty"  v-model="list.stock" name="">
+		    								<input type="button" class="cart-qty"  v-model="list.qty" name="">
 		    								<input type="button" class="add"  value="+"  @click.stop="add(idx)" >
 		    							</div>
 		    						</div>
@@ -98,6 +98,7 @@ export default {
 			show:true,
 			// checkAll:false,
 			selected:[],//checkAll=false  :[] ;checkAll=true :[0,1,2,3...]写满
+			len:'',//购物车数量
     	}
 	},
 	computed:{
@@ -122,10 +123,12 @@ export default {
 	},
 	methods:{
 		getGoods(){
-			this.$axios.post('http://localhost:3000/goods/getGoods')
+			this.$axios.post('http://localhost:3010/goods/getGoods')
 			.then((res)=>{
 				console.log(res);
-				this.cartList=res.data.data.goodslist;
+				this.cartList=res.data.data;
+				this.len=this.cartList.length;
+				console.log(this.len)
 			})
 			.catch((error)=>{
 				console.log(error);
@@ -144,30 +147,30 @@ export default {
 		},
 		add(index){
 			var goodslist=this.cartList;
-			goodslist[index].stock=goodslist[index].stock+1
 			console.log(this.cartList);
-			var id=this.cartList[index]._id;
+			var id=this.cartList[index].id;
+			// console.log(id)
 			var name=this.cartList[index].name;
-			var	type=this.cartList[index].type;
-			var	desc=this.cartList[index].desc;
+			var	user=this.cartList[index].user;
 			var	price=this.cartList[index].price;
-			var	imgpath=this.cartList[index].imgpath;
-			var	stock=goodslist[index].stock;
+			var	imgurl=this.cartList[index].imgurl;
+			var	qty=goodslist[index].qty+1;
+			var	size=this.cartList[index].size;
+			var	color=this.cartList[index].color;
 			// console.log(id,name,type,desc,price,imgpath,stock);
-			this.$axios.post('http://localhost:3000/goods/updateGoods',querystring.stringify({
+			this.$axios.post('http://localhost:3010/goods/updateGoods',querystring.stringify({
 				id:id,
 				name:name,
-				type:type,
-				desc:desc,
+				user:user,
 				price:price,
-				imgpath:imgpath,
-				stock:stock
+				imgurl:imgurl,
+				qty:qty,
+				size:size,
+				color:color,
 			}))
 			.then((res)=>{
 				console.log(res);
-				// this.setState({
-				// 	list:res.data.data
-				// })
+			
 				this.cartList=res.data.data;
 				console.log(this.cartList)
 			})
@@ -177,34 +180,34 @@ export default {
 		},
 		sub(index){
 			var goodslist=this.cartList;
-			if(goodslist[index].stock>1){
-				goodslist[index].stock=goodslist[index].stock-1
+			var id=this.cartList[index].id;
+			if(goodslist[index].qty>1){
+				goodslist[index].qty=goodslist[index].qty-1
 
 			}else{
 				return 
 			}
-			var id=this.cartList[index]._id;
 			var name=this.cartList[index].name;
-			var	type=this.cartList[index].type;
-			var	desc=this.cartList[index].desc;
+			var	user=this.cartList[index].user;
 			var	price=this.cartList[index].price;
-			var	imgpath=this.cartList[index].imgpath;
-			var	stock=goodslist[index].stock;
+			var	imgurl=this.cartList[index].imgurl;
+			var	qty=goodslist[index].qty;
+			var	size=this.cartList[index].size;
+			var	color=this.cartList[index].color;
 			// console.log(id,name,type,desc,price,imgpath,stock);
-			this.$axios.post('http://localhost:3000/goods/updateGoods',querystring.stringify({
+			this.$axios.post('http://localhost:3010/goods/updateGoods',querystring.stringify({
 				id:id,
 				name:name,
-				type:type,
-				desc:desc,
+				user:user,
 				price:price,
-				imgpath:imgpath,
-				stock:stock
+				imgurl:imgurl,
+				qty:qty,
+				size:size,
+				color:color,
 			}))
 			.then((res)=>{
 				console.log(res);
-				// this.setState({
-				// 	list:res.data.data
-				// })
+				
 				this.cartList=res.data.data;
 				console.log(this.cartList)
 			})

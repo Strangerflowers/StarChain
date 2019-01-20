@@ -16,6 +16,7 @@
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.16.4",
     "mint-ui": "^2.2.13",
+    "module": "^1.2.5",
     "mongoose": "^5.4.5",
     "request": "^2.88.0",
     "vue": "^2.5.2"

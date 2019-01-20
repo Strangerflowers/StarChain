@@ -1,6 +1,6 @@
 <template>
 	<div class="detail">
-		<Head></Head>
+		<Head :len='len'></Head>
 		<Banner :imgurl='imgurl'></Banner>
 		<Title :list='container'></Title>
 		<Promotion :list='limit' ></Promotion>
@@ -9,7 +9,16 @@
 		<Information :list='imgs' :info='info'></Information>
 		<Dfooter @handAdd='add2cart' :list='container' :size='goodsSize'></Dfooter>
 		<addCart v-show='isShow'></addCart>
-		<Size  v-show='size' @close="close" @subqty="subqty" @addqty="addqty" :qty="num" :goods="goodsSize"></Size>
+		<Size  v-show='size' 
+		@close="close"
+		@subqty="subqty"
+		@addqty="addqty" 
+		:qty="num"
+		@Determine="Determine"
+		:goods="goodsSize"
+		:goodsname='goodsSizeName'
+		ref="Size"
+		></Size>
 	</div>
 </template>
 <script type="text/javascript">
@@ -24,7 +33,7 @@
 	import Dfooter from './Dfooter.vue';
 	import Size from './size.vue';
 	var querystring = require('querystring'); 
-
+	// var goodId=this.$route.params.goodsId;
 	export default{
 		name:'Detail',
 		components:{
@@ -51,7 +60,12 @@
 				isShow:false,
 				size:false,
 				goodsSize:[],
-				num:1
+				num:1,
+				goodsSizeName:[],
+				img:[],
+				len:'',
+				cartId:[],
+				shopArr:[]  //暂时没有使用到
 			}
 		},
 		methods:{
@@ -71,10 +85,10 @@
 					this.info=res.data.data.goodsInfo;
 					this.limit=res.data.data.goodsExtraInfo;
 					this.store=res.data.data.storeInfo;
-					console.log(this.info)
-					// this.limitname=res.data.data.goodsExtraInfo.limitBuyDesc;
-					// .detailInfo
-					// serviceUrl
+					this.img=res.data.data.shareInfo;
+					console.log('shuju',res.data.data.shareInfo)
+					
+
 					var i=this.info;
 					// 获取src地址的正则
 					var srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
@@ -86,6 +100,43 @@
 					console.log(error);
 				})
 			},
+			getLens(){
+				
+				this.$axios.post('http://localhost:3010/goods/getGoods')
+				.then((res)=>{
+					console.log(res);
+					
+					this.shopArr=res.data.data;
+					this.len=res.data.data.length;
+					
+				})
+				.catch((error)=>{
+					console.log(error);
+				})
+			},
+			// 添加商品到购物车
+			addGoods(size,color){
+				var goodId=this.$route.params.goodsId;
+				this.$axios.post('http://localhost:3010/goods/addGoods',querystring.stringify({
+					id: goodId,
+					name:this.container.name,
+					user:'seven',
+					price:this.container.price,
+					imgurl:this.img.logo,
+					qty:this.num,
+					size:size,
+					color:color
+					
+				}))
+				.then((res)=>{
+					console.log(res);
+					console.log(666);
+				})
+				.catch((error)=>{
+					console.log(error);
+					console.log(888);
+				})
+			},
 			getSize(){
 				// https://api.380star.com/newbuyer/33/goods/goodsspecinfos.do
 				// var goodId=localStorage.getItem("goodsId");
@@ -93,12 +144,12 @@
 
 				this.$axios.post("http://api.380star.com/newbuyer/33/goods/goodsspecinfos.do",querystring.stringify({
 					goodsid: goodId
-					
 				}))
 				.then((res)=>{
 					console.log(res);
 					this.goodsSize=res.data.data.specPropName;
-					console.log('goods=',this.goodsSize)
+					this.goodsSizeName=res.data.data;
+					console.log('goods=',res.data.data)
 					
 				})
 				.catch((error)=>{
@@ -106,22 +157,52 @@
 				})
 			},                                                              
 			add2cart(){
+				var goodId=this.$route.params.goodsId;
 				
-				
+				// 如果没有尺码可以选择的，直接加入购物车
 				if(this.goodsSize==undefined){
-					console.log(999);
 					this.isShow=true;
+					// 查看这次加入购物车的商品之前是否已经添加，若已经添加，则数量加一
+					this.cartId=this.shopArr.filter((item)=>{
+						return item.id==goodId;
+					})
+					
+					if(this.cartId.length>0){
+						
+						// 存在，数量+1
+						let updataNum=this.num+this.cartId[0].qty;
+
+						this.$axios.post('http://localhost:3010/goods/updateGoods',querystring.stringify({
+							id:this.cartId[0].id,
+							name:this.cartId[0].name,
+							user:this.cartId[0].user,
+							price:this.cartId[0].price,
+							imgurl:this.cartId[0].imgurl,
+							qty: updataNum,
+							size:this.cartId[0].size,
+							color:this.cartId[0].color,
+						}))
+						.then((res)=>{
+							console.log(res);
+						})
+						.catch((error)=>{
+							console.log(error)
+						})
+						
+					}else{
+						console.log('-')
+						this.addGoods('','');
+					}
 					setTimeout(()=>{ 
 						this.isShow=false;
-					}, 2000);
+						this.getLens();
+					}, 1000);
+
+					// 如果有尺码选择的，先选择颜色尺寸，点击确定的时候再加入购物车
 				}else if(this.goodsSize.length>1){
 					this.size=true;
-					console.log(666);
 				}
-				// goodsId: "6001125"
-				// this.$router.push({name:'Cart',params:{userId:this.container.goodsId}})
-				// console.log('this.container.goodsId',this.container.goodsId)
-				// 
+				
 			},
 			close(){
 				this.size=false;
@@ -134,8 +215,52 @@
 			},
 			addqty(){
 				this.num++
-			}
+			},
+			// 如果为衣服类有尺寸选择的商品，要点击确实才能加入购物车
+			Determine(){
+				// 获取子组件的方法以及数据
+				// 获取商品的尺码
+				var size=this.$refs.Size.size;
+				var color=this.$refs.Size.color;
+				// 每次购物车的商品个数改变，数字也跟着改变
+				
+				// 当前页面的id
+				var goodId=this.$route.params.goodsId;
+
+				// 查看这次加入购物车的商品之前是否已经添加，若已经添加，则数量加一
+				this.cartId=this.shopArr.filter((item)=>{
+					return item.id==goodId;
+				})
+				if(this.cartId.length>0){
+					console.log('数量相加')
+						// 存在，数量+1
+						let updataNum=this.num+this.cartId[0].qty;
+						this.$axios.post('http://localhost:3010/goods/updateGoods',querystring.stringify({
+							id:this.cartId[0].id,
+							name:this.cartId[0].name,
+							user:this.cartId[0].user,
+							price:this.cartId[0].price,
+							imgurl:this.cartId[0].imgurl,
+							qty: updataNum,
+							size:this.cartId[0].size,
+							color:this.cartId[0].color,
+						}))
+						.then((res)=>{
+							console.log(res);
+						})
+						.catch((error)=>{
+							console.log(error)
+						})
+						
+				}else{
+					console.log('添加商品')
+					this.addGoods(size,color);
+					this.getLens();
+				}
+					
+			},
 		},
+		
 		beforeCreate(){
 			
 		},
@@ -147,7 +272,7 @@
 			// console.log(this.container); //在这里打印得不到数据，因为ajax是异步函数，要拿到数据只能在then能保证是有数据的
 		},
 		mounted(){
-			
+			this.getLens();
 			// console.log(this.container); //在这里打印得不到数据
 			
 		},
