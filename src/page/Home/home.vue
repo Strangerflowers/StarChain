@@ -8,8 +8,8 @@
     </mt-header>-->
 	<div class="carousel">
     <mt-swipe :auto="4000">
-  		<mt-swipe-item><img src="../images/lunbo1.png"/></mt-swipe-item>
- 		<mt-swipe-item><img src="../images/lunbo2.png"/></mt-swipe-item>
+  		<mt-swipe-item v-for="(item, idx) in a " ><img :src="item"/></mt-swipe-item>
+ 		<!-- <mt-swipe-item><img src="require('../../../static/images/lunbo2.png')"/></mt-swipe-item> -->
 	</mt-swipe>
 	</div>
 	<div class="menus">
@@ -207,6 +207,7 @@
 </template>
 <script>
 	import Vue from 'vue';
+	// const a=require('../../../static/images/lunbo1.png')
 //	import { Search } from 'mint-ui';
 	// Vue.component(Search.name, Search);
 	import ToTop from '../../components/toTop.vue';
@@ -252,7 +253,9 @@ export default {
     	nav9:[],
     	nav10:[],
     	nav11:[],
-    	nav12:[],
+		nav12:[],
+		a:[require('../../../static/images/lunbo1.png'),require('../../../static/images/lunbo2.png')]
+		
      
     }
 },
