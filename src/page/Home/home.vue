@@ -8,10 +8,10 @@
     </mt-header>-->
 	<div class="carousel">
     <mt-swipe :auto="4000">
-  		<mt-swipe-item><img src="../images/lunbo1.png"/></mt-swipe-item>
- 		<mt-swipe-item><img src="../images/lunbo2.png"/></mt-swipe-item>
+  		<mt-swipe-item><img src="http://rs.380star.com/upload/gic/ad1/pub/8f8cf18d06aeabae124742084de7f96d.jpg"/></mt-swipe-item>
+ 		<mt-swipe-item><img src="http://rs.380star.com/upload/gic/ad1/pub/35de1043e5d2a729568140839ebd6c33.jpg"/></mt-swipe-item>
 	</mt-swipe>
-	</div>
+	</div> 
 	<div class="menus">
 		<ul class="head">
 			<li v-for="item in list">
@@ -400,11 +400,11 @@ export default {
 	width: 3.35rem;
 }
 .hm5 ul{
-	height: rem(128px);
+	height:100%;
 }
 .hm5 li{
 	width: 50%;
-	height: rem(120px);
+	height: 3.16rem;
 	list-style: none;
 	float: left;
 }
@@ -530,7 +530,7 @@ export default {
 	width: rem(95px);
 }
 .nav3 ul{
-	height: rem(176px);
+	height: 6.69333rem;
 }
 .nav3 li{
 	height: 1.49rem;

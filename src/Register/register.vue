@@ -10,7 +10,7 @@
             <li>
                 <div class="input-item">
                     <i class="i-del" style="display: none;"></i>
-                    <input type="text" name="phone" maxlength="11" placeholder="请输入您的手机号">
+                    <input type="text" name="phone" maxlength="11" placeholder="请输入账号">
                 </div>
             </li>
             <li>
