@@ -93,16 +93,12 @@ router.beforeEach((to,from,next)=>{
 			next({
 				path:'./login',
 				query: {redirect: to.fullPath} // 登陆成功后回到当前页面，这里传值给login页面，to.fullPath为当前点击的页面
-
 			})
 		}
 	}else{
 		next();
 	}
 });
-// router.afterEach((to,from)=>{
-// 	console.log('after')
-// })
 
 export default router;
 

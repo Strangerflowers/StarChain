@@ -124,7 +124,10 @@ export default {
 	},
 	methods:{
 		getGoods(){
-			this.$axios.post('http://localhost:3010/goods/getGoods')
+			var user=sessionStorage.getItem('token');
+			this.$axios.post('http://localhost:3010/goods/getGoods',querystring.stringify({
+					user:user
+				}))
 			.then((res)=>{
 				console.log(res);
 				this.cartList=res.data.data;
@@ -154,9 +157,11 @@ export default {
 			var goodslist=this.cartList;
 			console.log(this.cartList);
 			var id=this.cartList[index].id;
+			var _id=this.cartList[index]._id;
 			// console.log(id)
 			var name=this.cartList[index].name;
-			var	user=this.cartList[index].user;
+			var user=sessionStorage.getItem('token');
+			// var	user=this.cartList[index].user;
 			var	price=this.cartList[index].price;
 			var	imgurl=this.cartList[index].imgurl;
 			var	qty=goodslist[index].qty+1;
@@ -164,6 +169,7 @@ export default {
 			var	color=this.cartList[index].color;
 			// console.log(id,name,type,desc,price,imgpath,stock);
 			this.$axios.post('http://localhost:3010/goods/updateGoods',querystring.stringify({
+				_id:_id,
 				id:id,
 				name:name,
 				user:user,
@@ -185,6 +191,7 @@ export default {
 		},
 		sub(index){
 			var goodslist=this.cartList;
+			var user=sessionStorage.getItem('token');
 			var id=this.cartList[index].id;
 			if(goodslist[index].qty>1){
 				goodslist[index].qty=goodslist[index].qty-1
@@ -192,8 +199,9 @@ export default {
 			}else{
 				return 
 			}
+			var _id=this.cartList[index]._id;
 			var name=this.cartList[index].name;
-			var	user=this.cartList[index].user;
+			// var	user=this.cartList[index].user;
 			var	price=this.cartList[index].price;
 			var	imgurl=this.cartList[index].imgurl;
 			var	qty=goodslist[index].qty;
@@ -201,6 +209,7 @@ export default {
 			var	color=this.cartList[index].color;
 			// console.log(id,name,type,desc,price,imgpath,stock);
 			this.$axios.post('http://localhost:3010/goods/updateGoods',querystring.stringify({
+				_id:_id,
 				id:id,
 				name:name,
 				user:user,
@@ -225,11 +234,13 @@ export default {
 			this.show=!isShow;
 		},
 		remove(){
-			console.log(this.selected)
+			console.log(this.selected);
+			var user=sessionStorage.getItem('token');
 			for(var i=0;i<this.selected.length;i++){
 
 				this.$axios.post('http://localhost:3010/goods/delGood',querystring.stringify({
-					id:this.cartList[this.selected[i]].id,
+					_id:this.cartList[this.selected[i]]._id,
+					user:user
 				}))
 				.then((res)=>{
 					console.log(res);

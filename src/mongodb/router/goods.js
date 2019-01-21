@@ -52,7 +52,8 @@ Router.post('/getGoods',(req,res)=>{
 	// let obj={}
 	// console.log(111)
 	// Goods.find({name,type,desc,price,imgpath,stock})
-	Goods.find()
+	let user=req.body.user;
+	Goods.find({user:user})
 	.then((data)=>{
 		// res.send(data)
 		// obj.goodslist=data
@@ -72,18 +73,19 @@ Router.post('/updateGoods',(req,res)=>{
 // 获取修改的值
 // res.send('aaaa');
 // 执行修改
-	let id=req.body.id;
-	console.log(id);
-	let stock=Number(req.body.stock);
-	let {name,user,price,imgurl,qty,size,color}=req.body
+	let _id=req.body._id;
+	// let user=req.body.user;
+	console.log(_id);
+	// let stock=Number(req.body.stock);
+	let {id,name,user,price,imgurl,qty,size,color}=req.body
 	console.log(id,name,user,price,imgurl,qty,size,color);
 	console.log(typeof(price));
-	Goods.updateMany({id:id},{name,user,price,imgurl,qty,size,color})
+	Goods.updateMany({_id:_id},{id,name,user,price,imgurl,qty,size,color})
 	// Goods.updateMany({_id:id},{stock})
 	.then((data)=>{
 		// res.send(data)
 		// res.send({err:0,msg:'修改成功',data:data})
-		 Goods.find()
+		 Goods.find({user:user})
 		 .then((data)=>{
 		 	 res.send({err:0,msg:'修改成功',data:data})
 		 })
@@ -125,9 +127,10 @@ Router.post('/delGood',(req,res)=>{
 // 获取商品的唯一索引   主键（——id）
 // 获取修改的值
 // 执行修改
-	let id=req.body.id;
+	let id=req.body._id;
+	let user=req.body.user;
 	console.log(id);
-	Goods.deleteMany({id:id})
+	Goods.deleteMany({_id:id},{user:user})
 	.then((data)=>{
 		// res.send(data)
 		res.send({err:0,msg:'删除成功',data:null})

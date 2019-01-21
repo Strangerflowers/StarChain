@@ -58,9 +58,9 @@ export default {
 			console.log(this.user)
 		},
 		btnLogin(){
-			// if(this.name!=''  &&  this.pwd!==''){
+			
 				sessionStorage.setItem('token',this.user);
-				
+				console.log('this.$route.query.redirect',this.$route.query.redirect)
 				this.$router.push(this.$route.query.redirect);
 				 // 跳转至前一页，this.$route.query.redirect是获取上面传递过来的值
 				// this.$router.push({name:'Cart'})

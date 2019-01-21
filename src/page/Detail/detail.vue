@@ -60,6 +60,7 @@
 				isShow:false,
 				size:false,
 				goodsSize:[],
+				goodsSize1:[],
 				num:1,
 				goodsSizeName:[],
 				img:[],
@@ -101,8 +102,11 @@
 				})
 			},
 			getLens(){
-				
-				this.$axios.post('http://localhost:3010/goods/getGoods')
+				var user=sessionStorage.getItem('token');
+				this.$axios.post('http://localhost:3010/goods/getGoods',querystring.stringify({
+					// id: goodId,
+					user:user,
+				}))
 				.then((res)=>{
 					console.log(res);
 					
@@ -117,10 +121,12 @@
 			// 添加商品到购物车
 			addGoods(size,color){
 				var goodId=this.$route.params.goodsId;
+				var user=sessionStorage.getItem('token');
+				console.log('sessionStorage',sessionStorage.getItem('token'))
 				this.$axios.post('http://localhost:3010/goods/addGoods',querystring.stringify({
 					id: goodId,
 					name:this.container.name,
-					user:'seven',
+					user:user,
 					price:this.container.price,
 					imgurl:this.img.logo,
 					qty:this.num,
@@ -130,11 +136,9 @@
 				}))
 				.then((res)=>{
 					console.log(res);
-					console.log(666);
 				})
 				.catch((error)=>{
 					console.log(error);
-					console.log(888);
 				})
 			},
 			getSize(){
@@ -143,13 +147,15 @@
 				var goodId=this.$route.params.goodsId;
 
 				this.$axios.post("http://api.380star.com/newbuyer/33/goods/goodsspecinfos.do",querystring.stringify({
-					goodsid: goodId
+					goodsid: goodId,
+
 				}))
 				.then((res)=>{
 					console.log(res);
 					this.goodsSize=res.data.data.specPropName;
 					this.goodsSizeName=res.data.data;
-					console.log('goods=',res.data.data)
+					this.goodsSize1=res.data.specPropName
+					console.log('goods=',this.goodsSize)
 					
 				})
 				.catch((error)=>{
@@ -158,24 +164,25 @@
 			},                                                              
 			add2cart(){
 				var goodId=this.$route.params.goodsId;
-				
+				var user=sessionStorage.getItem('token');
+				console.log('加')
 				// 如果没有尺码可以选择的，直接加入购物车
 				if(this.goodsSize==undefined){
+					console.log('加入购')
 					this.isShow=true;
 					// 查看这次加入购物车的商品之前是否已经添加，若已经添加，则数量加一
 					this.cartId=this.shopArr.filter((item)=>{
 						return item.id==goodId;
 					})
-					
 					if(this.cartId.length>0){
 						
 						// 存在，数量+1
 						let updataNum=this.num+this.cartId[0].qty;
-
 						this.$axios.post('http://localhost:3010/goods/updateGoods',querystring.stringify({
+							_id:this.cartId[0]._id,
 							id:this.cartId[0].id,
 							name:this.cartId[0].name,
-							user:this.cartId[0].user,
+							user:user,
 							price:this.cartId[0].price,
 							imgurl:this.cartId[0].imgurl,
 							qty: updataNum,
@@ -200,6 +207,10 @@
 
 					// 如果有尺码选择的，先选择颜色尺寸，点击确定的时候再加入购物车
 				}else if(this.goodsSize.length>1){
+					this.size=true;
+					console.log('物车')
+				}else{
+					console.log(this.size)
 					this.size=true;
 				}
 				
@@ -235,10 +246,12 @@
 					console.log('数量相加')
 						// 存在，数量+1
 						let updataNum=this.num+this.cartId[0].qty;
+						var user=sessionStorage.getItem('token');
+
 						this.$axios.post('http://localhost:3010/goods/updateGoods',querystring.stringify({
 							id:this.cartId[0].id,
 							name:this.cartId[0].name,
-							user:this.cartId[0].user,
+							user:user,
 							price:this.cartId[0].price,
 							imgurl:this.cartId[0].imgurl,
 							qty: updataNum,

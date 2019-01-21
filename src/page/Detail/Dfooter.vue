@@ -7,7 +7,7 @@
             <li class="info-li shou">
                 <a href="javascript:;" class="icon-collect"><i></i><span>收藏</span></a>
             </li>
-            <li class="btn-item  add"  @click='add'><a href="javascript:;" class="btn-buy btn-addcart" @click="add2Cart">加入购物车</a></li>
+            <li class="btn-item  add"  @click='add'><a href="javascript:;" class="btn-buy btn-addcart">加入购物车</a></li>
             <li class="btn-item"><a href="javascript:;" class="btn-active">立即购买</a></li>
         </ul>
     </footer>
@@ -24,6 +24,7 @@
 		methods:{
 			add(){
 				this.$emit('handAdd');
+				console.log('加入购物车')
 			},
 			add2Cart(){
 				// name:{type:String,required:true},
