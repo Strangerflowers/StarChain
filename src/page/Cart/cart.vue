@@ -232,6 +232,7 @@ export default {
 		change(){
 			var isShow=this.show;
 			this.show=!isShow;
+			
 		},
 		remove(){
 			console.log(this.selected);

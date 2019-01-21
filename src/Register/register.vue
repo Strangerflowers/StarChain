@@ -10,7 +10,8 @@
             <li>
                 <div class="input-item">
                     <i class="i-del" style="display: none;"></i>
-                    <input type="text" name="phone" maxlength="11" placeholder="请输入您用户名" v-model="user" @input="username">
+                    <input type="text" name="phone" maxlength="11" placeholder="请输入您用户名" 
+                    	v-model="user" @input="username">
                 </div>
             </li>
             <li>
