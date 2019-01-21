@@ -29,9 +29,7 @@
 
 .icon-cart:before {
   content: "\e607";
-  width:0.7rem;
-  height:0.7rem;
-  color:#fff;
+  
 }
 
 .icon-iconfontjiantou:before {
@@ -44,7 +42,7 @@
 
 .icon-jiantou-copy:before {
   content: "\e667";
-  color:#fff;
+  /*color:#fff;*/
 }
 
 .icon-icon5:before {
@@ -130,8 +128,6 @@
 
 .icon-home:before {
   content: "\e6f9";
-  width:0.7rem;
-  height:0.7rem;
-  color:#fff;
+  
 }
 

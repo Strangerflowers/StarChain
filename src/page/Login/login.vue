@@ -4,7 +4,7 @@
         <a class="btn-back" href="javascript:window.history.back();"><i></i></a>
         <div class="title">登录</div>
         <div class="right-info">
-            <a class="fun-txt" href="register.html">注册</a>
+            <a class="fun-txt" @click="gotoReg">注册</a>
         </div>
     </header>
     <div class="login-form">
@@ -12,24 +12,30 @@
             <li>
                 <div class="input-item">
                     <i class="i-del" style="display: none;"></i>
-                    <input type="text" name="phone" maxlength="11" placeholder="请输入账号">
+                    <input type="text" name="phone" maxlength="11"
+					@input="inputname"
+					 v-model="user"
+					 placeholder="请输入账号">
                 </div>
             </li>
             <li>
                 <div class="input-item">
                     <i class="i-see"></i>
-                    <input type="text" name="pwd" placeholder="请输入密码" style="display: none;">
-                    <input type="password" name="pwd" placeholder="请输入密码">
+                    <!-- <input type="text" name="pwd" placeholder="请输入密码" style="display: none;"> -->
+                    <input type="password" name="pwd"
+					 placeholder="请输入密码"
+					 v-model="pwd"
+					 >
                 </div>
             </li>
         </ul>
         <p class="prompt">可使用星链云店或星链钱包账号登录</p>
-        <div class="row-btn">
-            <a class="btn btn-lg btn-disable" href="javascript:;">登录</a>
-            
+        <div class="row">
+            <!-- <a class="btn btn-lg btn-active btn-disable login" @click="btnLogin">登录</a> -->
+            <p class="dengle" @click="btnLogin">登录</p>
         </div>
         <ul class="row-action">
-            <li><a href="retrievePwd.html">忘记密码</a></li>
+            <li><a>忘记密码</a></li>
         </ul>
     </div>
 </div>
@@ -37,7 +43,31 @@
 <script>
 
 export default {
-    
+    data(){
+		return {
+			user:"",
+			pwd:''
+		}
+	},
+	methods:{
+		gotoReg(){
+			this.$router.push({name:'Register'})
+		},
+		inputname(){
+			
+			console.log(this.user)
+		},
+		btnLogin(){
+			
+				sessionStorage.setItem('token',this.user);
+				console.log('this.$route.query.redirect',this.$route.query.redirect)
+				this.$router.push(this.$route.query.redirect);
+				 // 跳转至前一页，this.$route.query.redirect是获取上面传递过来的值
+				// this.$router.push({name:'Cart'})
+				
+		
+		}
+	}
 }
 </script>
 <style lang="scss" scoped>
@@ -95,6 +125,17 @@ export default {
 .login-form{
 	padding: 0.46875rem;
 }
+.input-list li{
+	margin-bottom:rem(10px);
+	border:1px solid #ccc;
+	border-radius:rem(5px);
+}
+.input-list li input{
+	width:rem(300px);
+	padding:rem(10px) rem(0px) rem(10px) rem(0px);
+	background:#f7f7f7;
+
+}
 .input-item{
 	font-size: 0.40625rem;
 	position: relative;
@@ -111,6 +152,17 @@ export default {
 }
 .login-btn .row-btn{
 	padding-top: 1.25rem;
+}
+.row .dengle{
+	font-size:rem(20px);
+	color:#999;
+	height:rem(50px);
+	line-height:rem(50px);
+	border:1px solid #ccc;
+	border-radius:rem(5px);
+	background:#fa5e71;
+	color:#f7f7f7;
+	margin-top:rem(20px);
 }
 .btn.btn-lg{
 	width: 100%;

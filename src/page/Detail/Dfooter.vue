@@ -15,6 +15,7 @@
 <script type="text/javascript">
 	export default{
 		name:'Dfooter',
+		props:['list','size'],
 		data(){
 			return{
 
@@ -23,6 +24,17 @@
 		methods:{
 			add(){
 				this.$emit('handAdd');
+				console.log('加入购物车')
+			},
+			add2Cart(){
+				// name:{type:String,required:true},
+				// user:{type:String,required:true},
+				// type:{type:String,required:true},
+				// price:{type:Number,required:true},
+				// imgurl:{type:String,required:true},
+				// qty:{type:Number,required:true},
+				// size:{type:String,required:false},
+				// color:{type:String,required:false}
 			}
 		}
 	}

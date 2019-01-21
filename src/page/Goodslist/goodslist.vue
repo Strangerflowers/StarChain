@@ -1,6 +1,8 @@
 <template>
 	<div class="goodslit">
-		<Search></Search>
+		<!-- <Search></Search> -->
+		<Aheacder></Aheacder>
+		<!-- <Head></Head> -->
 		<div class="good_head"> 
 		   	<ul class="ui-tab-nav"> 
 		    	<li  class="shop " :class="on?select:''" @click="tab1" >星链商品</li>
@@ -36,7 +38,7 @@
 				<ul  v-infinite-scroll="loadMore"
 						
 						infinite-scroll-distance="10">
-					<li v-for="(good, index) in goodslist" :key="index" @click="gotoDetail(index)">
+					<li v-for="(good, index) in goodslist" :key="index" @click="gotoDetail(good.goodsId)">
 						<div class="g-list-left">
 							<img   v-lazy.container="good.goodsLogo"  >
 						</div>
@@ -93,10 +95,12 @@
 				</ul>
 			</div>
 		</div>
+		<ToTop :scroll='scroll' @Totop="top"></ToTop>
 	</div>
 </template>
 <script type="text/javascript">
-	import Search from '../../components/Search';
+	import Aheacder from '../../components/Aheader';
+	import ToTop from '../../components/toTop.vue';
 	import Vue from 'vue';
 	// 无限滚动
 	import { InfiniteScroll } from 'mint-ui';
@@ -107,7 +111,9 @@
 	export default{
 		name:'Goods',
 		components:{
-			Search
+			// Search
+			Aheacder,
+			ToTop
 		},
 		data(){
 			return {
@@ -119,7 +125,8 @@
 				on1:false,
 				sale:false,
 				price:false,
-				zonghe:false
+				zonghe:false,
+				scroll:false
 				
 			}
 		},
@@ -130,7 +137,7 @@
 				this.currentPages++
 				console.log('11',currentId);
 				this.loading=true;
-				this.$axios.post('/store/newbuyer/33/goods/categoodslist.do',querystring.stringify({
+				this.$axios.post('http://api.380star.com/newbuyer/33/goods/categoodslist.do',querystring.stringify({
 					pagenum: this.currentPages,
 					pagesize: 20,
 					goodstype: 2,
@@ -159,7 +166,7 @@
 				this.currentPages++
 				console.log('11',currentId);
 				this.loading=true;
-				this.$axios.post('/store/newbuyer/33/goods/categoodslist.do',querystring.stringify({
+				this.$axios.post('http://api.380star.com/newbuyer/33/goods/categoodslist.do',querystring.stringify({
 					pagenum: this.currentPages,
 					pagesize: 20,
 					goodstype: 1,
@@ -197,7 +204,7 @@
 					this.sale=!issale;
 					console.log(order);
 				}
-				this.$axios.post('/store/newbuyer/33/goods/categoodslist.do',querystring.stringify({
+				this.$axios.post('http://api.380star.com/newbuyer/33/goods/categoodslist.do',querystring.stringify({
 					pagenum: 1,
 					pagesize: 20,
 					goodstype: 2,
@@ -232,7 +239,7 @@
 					this.price=!isprice;
 					console.log(order);
 				}
-				this.$axios.post('/store/newbuyer/33/goods/categoodslist.do',querystring.stringify({
+				this.$axios.post('http://api.380star.com/newbuyer/33/goods/categoodslist.do',querystring.stringify({
 					pagenum: 1,
 					pagesize: 20,
 					goodstype: 2,
@@ -261,7 +268,7 @@
 				this.currentPages++
 				
 				this.loading=true;
-				this.$axios.post('/store/newbuyer/33/goods/categoodslist.do',querystring.stringify({
+				this.$axios.post('http://api.380star.com/newbuyer/33/goods/categoodslist.do',querystring.stringify({
 					pagenum: 1,
 					pagesize: 20,
 					goodstype: 2,
@@ -299,11 +306,55 @@
 				this.on1=false;
 
 			},
-			gotoDetail(index){
-				localStorage.setItem('goodsId',this.goodslist[index].goodsId);
-				console.log('goodId',this.goodslist[index].goodsId);
-				this.$router.push({name:'Detail'})
+			gotoDetail(id){
+				// localStorage.setItem('goodsId',this.goodslist[index].goodsId);
+				// console.log('goodId',this.goodslist[index].goodsId);
+				this.$router.push({name:'Detail',params:{goodsId:id}})
+			},
+			handleScroll(){
+				var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+				//   console.log('y=',scrollTop);
+				  if(scrollTop>500){
+					  this.scroll=true;
+				  }else{
+					  this.scroll=false;
+				  }
+			},
+			//  点击回到顶部方法，加计时器是为了过渡顺滑
+			top(){
+				document.documentElement.scrollTop = document.body.scrollTop =0;
+				// clearInterval(timer)
+				// let that = this
+				// let timer = setInterval(() => {
+				// 	let ispeed = Math.floor(-that.scrollTop / 20)
+				// 	document.documentElement.scrollTop = document.body.scrollTop = that.scrollTop + ispeed
+				// 	if (that.scrollTop === 0) {
+				// 	clearInterval(timer);
+				// 	 this.scroll=false;
+				// 	}
+				// }, 16)
 			}
+			// handleScroll () {
+			// 	var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+			// 	var offsetTop = document.querySelector('#searchBar').offsetTop
+			// 	if (scrollTop > offsetTop) {
+			// 		this.searchBarFixed = true
+			// 	} else {
+			// 		this.searchBarFixed = false
+			// 	}
+			//},
+			// 点击图片回到顶部方法，加计时器是为了过渡顺滑
+			// backTop () {
+			// 	let that = this
+			// 	let timer = setInterval(() => {
+			// 		let ispeed = Math.floor(-that.scrollTop / 5)
+			// 		document.documentElement.scrollTop = document.body.scrollTop = that.scrollTop + ispeed
+			// 		if (that.scrollTop === 0) {
+			// 		clearInterval(timer)
+			// 		}
+			// 	}, 16)
+			// },
+
 		},
 		beforeCreate(){
 			
@@ -311,6 +362,9 @@
 
 		created(){
 			// this.$store.state.navShow=false;
+		},
+		mounted(){
+			window.addEventListener('scroll', this.handleScroll)
 		},
 		beforeUpdate(){
 			// this.$store.state.navShow=false;
@@ -321,20 +375,29 @@
 		},
 		beforeDestroy(){
 			this.$store.state.navShow=true;
-		} 
+		} ,
+		destroyed () {
+			window.removeEventListener('scroll', this.handleScroll)
+		},
 	}
 </script>
 <style  lang="scss" scoped>
 	.goodslit{
 		width:rem(375px);
 		.good_head{
+			background:#fff;
+			position:fixed;
+			top:rem(50px);
+			right:0;
+			left:0;
+			z-index:1000;
 			width:rem(375px);
-			
 			.ui-tab-nav{
 				padding-left:rem(48px);
 				padding-bottom:rem(11px);
 				overflow:hidden;
 				border-bottom:1px solid #ccc;
+				
 				li{
 					float:left;
 					width:rem(139px);

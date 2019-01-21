@@ -10,23 +10,25 @@
             <li>
                 <div class="input-item">
                     <i class="i-del" style="display: none;"></i>
-                    <input type="text" name="phone" maxlength="11" placeholder="请输入账号">
+                    <input type="text" name="phone" maxlength="11" placeholder="请输入您用户名" 
+                    	v-model="user" @input="username">
                 </div>
             </li>
             <li>
                 <div class="input-item">
-                    <input class="code" type="text" name="code" maxlength="6" placeholder="请输入验证码">
-                    <a class="btn-smscode disable" href="javascript:;">获取验证码</a>
-                    <a class="btn-smscode disable" href="javascript:;" style="display: none;">60秒后重新发送</a>
-                    <a class="btn-smscode" href="javascript:;" style="display: none;">获取验证码</a>
+                    <input class="code" type="text" name="code" maxlength="6" placeholder="请输入密码"
+					 @input="password" v-model="code">
+                    <!-- <a class="btn-smscode disable" href="javascript:;">获取验证码</a> -->
+                    <!-- <a class="btn-smscode disable" href="javascript:;" style="display: none;">60秒后重新发送</a> -->
+                    <!-- <a class="btn-smscode" href="javascript:;" style="display: none;">获取验证码</a> -->
                 </div>
             </li>
-            <li>
+            <!-- <li>
                 <div class="input-item input-invitationNum">
                     <label>邀请码</label>
                     <input type="text" maxlength="15" placeholder="可选填">
                 </div>
-            </li>
+            </li> -->
         </ul>
         <ul class="row-agree">
             <li class="col-checked">
@@ -35,8 +37,8 @@
             <li class="col-info">同意<a href="registerAgree.html">星链用户注册协议</a></li>
         </ul>
         <div class="row-btn">
-            <a class="btn btn-lg btn-active" href="javascript:;" style="display: none;">下一步</a>
-            <a class="btn btn-lg btn-active btn-disable" href="javascript:;">下一步</a>
+            <a class="btn btn-lg btn-active" href="javascript:;" style="display: none;">注册</a>
+            <a class="btn btn-lg btn-active btn-disable" href="javascript:;" @click="reg">注册</a>
         </div>
     </div>
     <!--验证码弹层-->
@@ -60,6 +62,27 @@
 <script>
 
 export default {
+	name:'Register',
+	data(){
+		return {
+			user:'',
+			code:''
+		}
+	},
+	methods:{
+		// username(){
+			
+		// 	localStorage.setItem('user',this.user);
+		// },
+		// password(){
+		// 	localStorage.setItem('password',this.code);
+		// },
+		// 点击注册的时候，跳转到登录页面
+		reg(){
+			this.$router.push({name:'Login'})
+		}
+
+	}
     
 }
 </script>
@@ -101,6 +124,18 @@ export default {
 .login-form{
 	padding: 0.46875rem;
 }
+.input-list li{
+	margin-bottom:rem(10px);
+	border:1px solid #ccc;
+	border-radius:rem(5px);
+}
+.input-list li input{
+	width:rem(300px);
+	padding:rem(10px) rem(0px) rem(10px) rem(0px);
+	background:#f7f7f7;
+
+}
+
 .input-item{
 	font-size: 0.40625rem;
 	position: relative;

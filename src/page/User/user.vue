@@ -1,11 +1,12 @@
 <template>
+
    <section class="user">
             <div class="user-h">
                 <div class="icon-s"><img src="../../assets/icon_set@2x.png" alt=""></div>
                 <div class="icon-m"><img src="../../assets/common_nav_icon_massage@2x.png" alt=""></div>
                 <div class="icon-mess" style="display: none;"></div>
                 <div class="img-h"><img alt="" src="http://rs.380star.com/upload/uic/logo_icon.jpg"></div>
-                <div class="txt-h"><span></span></div>
+                <div class="txt-h"><span>{{username}}</span></div>
                 <div class="user-c">
                     <div class="c-good">
                         <p>0</p>
@@ -106,14 +107,23 @@
             </ul>
         </div>    
        </section>
+
 </template>
 <script>
 
 export default {
-    
+    data(){
+        return {
+            username:''
+        }
+    },
+    created(){
+        this.username=sessionStorage.getItem('token');
+    }
 }
 </script>
 <style lang="scss" scoped>
+
 .user{
 	width: 100%;
 	height: 100%;

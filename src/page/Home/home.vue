@@ -1,7 +1,7 @@
 
 <template>
 	<div class="page">
-		<Search/>
+		<Hheader/>
 	<!--<mt-header class="hea">
       <mt-button slot="left" @click="goto('CityList')">[广州]</mt-button>
       <mt-button icon="search" slot="right" @click="goto('Search')"></mt-button>
@@ -202,15 +202,17 @@
 			</li>
 		</ul>
 	</div>
+	 <ToTop :scroll='scroll'  @Totop="top" ></ToTop>
 	</div>
 </template>
 <script>
 	import Vue from 'vue';
 //	import { Search } from 'mint-ui';
-	Vue.component(Search.name, Search);
+	// Vue.component(Search.name, Search);
+	import ToTop from '../../components/toTop.vue';
 	import { Swipe, SwipeItem } from 'mint-ui';
-//	import Search from '../../components/Search.vue';
-	import Search from '../../components/Search';
+	import Hheader from '../../components/Hheader.vue';
+	// import Search from '../../components/Search';
 	Vue.component(Swipe.name, Swipe);
 	Vue.component(SwipeItem.name, SwipeItem);
 	
@@ -218,11 +220,13 @@
 export default {
 	name:"home",
 	components:{
-		Search
+		Hheader,
+		ToTop
 	},
     data() {
     return {
-    	list:[],
+		list:[],
+		scroll:false,
     	title:[],
     	hm:[],
     	hm2:[],
@@ -255,7 +259,7 @@ export default {
 	methods:{
     	getData(){
     		
-    		this.$axios.post('https://api.380star.com/newbuyer/33/goods/homead3.do',querystring.stringify({
+    		this.$axios.post('http://api.380star.com/newbuyer/33/goods/homead3.do',querystring.stringify({
 				
 				version:3.7,
 				t_id:1547122912018,
@@ -297,11 +301,30 @@ export default {
     		.catch((error)=>{
     			console.log(error);
     		})
-    	}
-    },
+		},
+		handleScroll(){
+			var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+			// console.log('y=',scrollTop);
+			if(scrollTop>500){
+				this.scroll=true;
+			}else{
+				this.scroll=false;
+			}
+		},
+		top(){
+			document.documentElement.scrollTop = document.body.scrollTop =0;
+		}
+	},
+	
     created(){
     	this.getData();
-    }
+	},
+	mounted(){
+		window.addEventListener('scroll', this.handleScroll)
+	},
+	destroyed () {
+		window.removeEventListener('scroll', this.handleScroll)
+	},
     
 }
 </script>

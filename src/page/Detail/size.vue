@@ -6,13 +6,13 @@
 				<div class="goodsnew">
 					<p class="close" @click="close">&times;</p>
 					<div class="s-pic">
-						<img src="http://img.365hele.com/upload/31752/store/1215/75c122fb-0f78-41ce-b9e1-f2f5b1610e92.jpg_middle.jpg">
+						<img :src="goodsname.goodsLogo">
 					</div>
 					<div class="s-con">
 						<p class="price" >
-							￥<span class="sale"></span>
+							￥<span class="sale">{{goodsname.goodsPrice}}</span>
 						</p>
-						<p calss="stock">库存   <span>1234</span></p>
+						<p calss="stock">库存<span>{{goodsname.inventory}}</span></p>
 						<p>请选择规格</p>
 					</div>
 				</div>
@@ -56,7 +56,7 @@
 							<input type="button" class="add" name="" value="+" @click='addqty'>
 						</div>
 					</div>
-					<div class="btn-bottom" @click="queding">确定</div>
+					<div class="btn-bottom" @click="Determine">确定</div>
 				</div>
 			</div>
 			<div class="mask" @click="close"></div>
@@ -66,7 +66,7 @@
 <script type="text/javascript">
 	export default{
 		name:'Size',
-		props:['qty',"goods"],
+		props:['qty',"goods",'goodsname'],
 		computed:{
 			good(){
 				// return this.goods.
@@ -78,7 +78,9 @@
 				currentsize:"",
 				arr:[],
 				arr1:[],
-				arr2:[]
+				arr2:[],
+				color:'',
+				size:'',
 
 			}
 		},
@@ -93,27 +95,32 @@
 				this.$emit('addqty');
 			},
 			choosesize(e,idx){
+				// this.$emit('choosesize($event)');
 				console.log(e.target.innerText);
-				console.log(idx)
+				// console.log(idx)
 				this.currentsize=idx;
-				this.arr.push(e.target.innerText)
+				this.size=e.target.innerText
 
 			},
 			choosecolor(e,idx){
+				// this.$emit('choosecolor($event)');
 				console.log(e.target.innerText);
-				console.log(idx)
+				// console.log(idx);
 				this.currentcolor=idx;
-				this.arr1.push(e.target.innerText)
+				
+				this.color=e.target.innerText	
 
 			},
-			queding(){
-				if(this.arr<1 && this.arr1<1){
-					alert('请选择商品的尺码')
-				}else{
-					this.arr2=this.arr.concat(this.arr1);
-					console.log(this.arr2);
-					this.close()
-				}
+			Determine(){
+				this.$emit('Determine');
+				this.$emit('close');
+				// if(this.arr<1 && this.arr1<1){
+				// 	alert('请选择商品的尺码')
+				// }else{
+				// 	this.arr2=this.arr.concat(this.arr1);
+				// 	console.log(this.arr2);
+				// 	this.close()
+				// }
 			}
 		}
 	}
@@ -260,6 +267,7 @@
 					bottom:0;
 					border-top:1px solid #ccc;
 					text-align:left;
+					background:#fff;
 					.btn-top{
 						width:rem(339px);
 						height:rem(28px);

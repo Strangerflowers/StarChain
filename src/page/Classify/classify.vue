@@ -1,6 +1,6 @@
 <template>
     <div class="classify">
-    	<Search></Search>
+    	<Aheader></Aheader>
     	<div class="classify_left">
     		<ul>
     			<li v-for="(tab, idx) in tabs" 
@@ -18,12 +18,12 @@
 </template>
 <script>
 	import ClassRight from './classifyRight';
-	import Search from '../../components/Search';
+	import Aheader from '../../components/Aheader';
 export default {
 	name:"ClassLeft",
 	components:{
 		ClassRight,
-		Search
+		Aheader
 	},
 	
     // https://api.380star.com/newbuyer/33/goods/catelist.do
@@ -39,7 +39,7 @@ export default {
     },
     methods:{
     	getData(){
-    		this.$axios.post('https://api.380star.com/newbuyer/33/goods/catelist.do')
+    		this.$axios.post('http://api.380star.com/newbuyer/33/goods/catelist.do')
     		.then((res)=>{
     			console.log(res);
     			this.tabs=res.data.data.list;
