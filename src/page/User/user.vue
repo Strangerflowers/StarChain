@@ -6,7 +6,8 @@
                 <div class="icon-m"><img src="../../assets/common_nav_icon_massage@2x.png" alt=""></div>
                 <div class="icon-mess" style="display: none;"></div>
                 <div class="img-h"><img alt="" src="http://rs.380star.com/upload/uic/logo_icon.jpg"></div>
-                <div class="txt-h"><span>{{username}}</span></div>
+                <div class="txt-h"><span class="username"><strong>{{username}}</strong></span>
+                 <span @click="exit" class="exit"> 退出登录</span>  </div>
                 <div class="user-c">
                     <div class="c-good">
                         <p>0</p>
@@ -117,6 +118,12 @@ export default {
             username:''
         }
     },
+    methods:{
+        exit(){
+            sessionStorage.removeItem('token');
+           location.reload()
+        }
+    },
     created(){
         this.username=sessionStorage.getItem('token');
     }
@@ -136,6 +143,19 @@ export default {
 	height: 5.15625rem;
 	background-size: 100%;
 	position: relative;	
+}
+.user-h .txt-h .username strong{
+    color:#222;
+    height:rem(40px);
+    display:inline-block;
+    font-size:rem(30px);
+    width:rem(186px);
+}
+.user-h .txt-h .exit{
+   height:rem(40px);
+   font-size:rem(20px);
+    color:#222;
+   line-height:rem(50px);
 }
 .user-h .icon-s{
 	width: 0.609375rem;

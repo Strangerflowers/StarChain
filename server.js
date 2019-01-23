@@ -7,7 +7,7 @@ const path=require('path')
 //定义后端静态服务器 
 var app = express();
 
-const db=require('./src/mongodb/model/mongodb_connect.js');
+const db=require('./mongodb/model/mongodb_connect.js');
 
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -15,9 +15,38 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // 引入路由
 // 开启静态服务
 
-app.use(express.static(path.join(__dirname,'./src')))
+app.use(express.static(path.join(__dirname,'./')))
 
-const goodsRouter=require('./src/mongodb/router/goods.js');
+const goodsRouter=require('./mongodb/router/goods.js');
+
+
+
+
+// app.post("/",(req,res)=>{
+// 		//设置跨域权限
+// 	   res.append("Access-Control-Allow-Origin","*");
+		
+// 		var res2 = req.body;
+// 		console.log('res2=',res2)
+		
+// 	    // cors
+// 	    // if(req.body==='catelist.do'){
+// 		    request(`http://39.96.56.22:3000/goods/getGoods`,(err,response,body)=>{
+// 		        // console.log(body);
+		       
+// 		        res.send(body);
+// 		    });
+// 	    // }else if(req.query.type==='categoodslist.do'){
+// 	    // 	// res.append("Access-Control-Allow-Origin","*");
+// 		   //  request(`https://api.380star.com/newbuyer/33/goods/${req.query.type}`,(err,response,body)=>{
+// 		   //      // console.log(body);
+		       
+// 		   //      res.send(body);
+// 		   //  });
+// 	    // }
+// });
+
+
 
 
 // 使用路由
@@ -25,7 +54,7 @@ const goodsRouter=require('./src/mongodb/router/goods.js');
 app.use('/goods',goodsRouter);
 
 
-app.listen(3010);
+app.listen(3000);
 
 
 

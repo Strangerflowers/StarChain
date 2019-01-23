@@ -130,10 +130,17 @@ Router.post('/delGood',(req,res)=>{
 	let id=req.body._id;
 	let user=req.body.user;
 	console.log(id);
-	Goods.deleteMany({_id:id},{user:user})
+	Goods.deleteMany({_id:id,user:user})
 	.then((data)=>{
 		// res.send(data)
-		res.send({err:0,msg:'删除成功',data:null})
+		// res.send({err:0,msg:'删除成功',data:data})
+		Goods.find({user:user})
+		.then((data)=>{
+			 res.send({err:0,msg:'删除成功',data:data})
+		})
+		.catch((error)=>{
+			console.log(error)
+		})
 	})
 	.catch((err)=>{
 		console.log(err)

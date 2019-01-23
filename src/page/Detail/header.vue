@@ -34,7 +34,7 @@
 				this.$router.push({path:'/home'});
 			},
 			gocart(){
-				this.$router.push({path:'/cart'});
+				this.$router.replace({path:'/cart'});
 			}
 		}
 	}

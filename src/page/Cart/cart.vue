@@ -15,7 +15,7 @@
     	<div class="cart-shop">
     		<ul>
     			<li>
-    				<div class="shop-head">
+    				<!-- <div class="shop-head">
 		    			<div class="store-left">
 		    				<input type="checkbox" name="checkbox" class="check">
 		    			</div>
@@ -26,7 +26,7 @@
 		    			<div class="head-icon">
 		    				<i class="iconfont icon-arrow"></i>
 		    			</div>
-		    		</div>
+		    		</div> -->
 		    		<div class="cart-list">
 		    			<ul class="same-store">
 		    				<li  v-for="(list ,idx) in cartList" :key="list.id"  @click="selectGood(idx)" :class="{'sele':isActive(idx)}">
@@ -61,7 +61,11 @@
     		</ul>
     		
     	</div>
-		<div class="Cfooter">
+		<div class="no-shop" v-show="len==0">
+			<i></i>
+			<p>暂无商品</p>
+		</div>
+		<div class="Cfooter" v-show="len!=0">
 			<div class="sele">
 				<input type="checkbox" class="seleAll" v-model="checkAll">
 				<span>全选</span>
@@ -124,8 +128,9 @@ export default {
 	},
 	methods:{
 		getGoods(){
+			// let url='http://39.96.56.22:3000'+'/goodsAdmin/getGoods'
 			var user=sessionStorage.getItem('token');
-			this.$axios.post('http://localhost:3010/goods/getGoods',querystring.stringify({
+			this.$axios.post('http://39.96.56.22:3000/goods/getGoods',querystring.stringify({
 					user:user
 				}))
 			.then((res)=>{
@@ -168,7 +173,7 @@ export default {
 			var	size=this.cartList[index].size;
 			var	color=this.cartList[index].color;
 			// console.log(id,name,type,desc,price,imgpath,stock);
-			this.$axios.post('http://localhost:3010/goods/updateGoods',querystring.stringify({
+			this.$axios.post('http://39.96.56.22:3000/goods/updateGoods',querystring.stringify({
 				_id:_id,
 				id:id,
 				name:name,
@@ -208,7 +213,7 @@ export default {
 			var	size=this.cartList[index].size;
 			var	color=this.cartList[index].color;
 			// console.log(id,name,type,desc,price,imgpath,stock);
-			this.$axios.post('http://localhost:3010/goods/updateGoods',querystring.stringify({
+			this.$axios.post('http://39.96.56.22:3000/goods/updateGoods',querystring.stringify({
 				_id:_id,
 				id:id,
 				name:name,
@@ -223,7 +228,7 @@ export default {
 				console.log(res);
 				
 				this.cartList=res.data.data;
-				console.log(this.cartList)
+				// console.log(this.cartList)
 			})
 			.catch((error)=>{
 				console.log(error)
@@ -239,21 +244,25 @@ export default {
 			var user=sessionStorage.getItem('token');
 			for(var i=0;i<this.selected.length;i++){
 
-				this.$axios.post('http://localhost:3010/goods/delGood',querystring.stringify({
+				this.$axios.post('http://39.96.56.22:3000/goods/delGood',querystring.stringify({
 					_id:this.cartList[this.selected[i]]._id,
 					user:user
 				}))
 				.then((res)=>{
-					console.log(res);
+					this.cartList=res.data.data;
+					// console.log('remove',res.data.data);
 				})
 				.catch((error)=>{
 					console.log(error);
 				})
-				console.log(123456789)
+				// console.log(123456789)
 
 			}
-			// 刷新页面
-			location.reload()
+			// 删除之后将selected清空，
+			this.selected=[];
+		
+			
+			
 		},
 	},
     created(){
@@ -263,7 +272,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 	.cart{
-		border-bottom:1px solid #eee;
+		// border-bottom:1px solid #eee;
 		padding-top:rem(50px);
 		width:rem(375px);
 		height:rem(100px);
@@ -477,6 +486,18 @@ export default {
 					}
 				}
 			}
+		}
+		.no-shop i{
+			// background: url(../images/myOrder/order@2x.png) no-repeat 0 0;
+			display:inline-block;
+			width: 6.21875rem;
+			height: 3.65625rem;
+			background: url(../../../static/images/cart.png) no-repeat 0 0;
+			background-size: 100% 100%;
+			// margin: 0 auto;
+			position: absolute;
+			top: 108px;
+			right: 71px;
 		}
 		.Cfooter{
 			border-top:1px solid #ccc;
