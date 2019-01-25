@@ -103,7 +103,7 @@
 			},
 			getLens(){
 				var user=sessionStorage.getItem('token');
-				this.$axios.post('http://39.96.56.22:3000/goods/getGoods',querystring.stringify({
+				this.$axios.post('http://localhost:3000/goods/getGoods',querystring.stringify({
 					// id: goodId,
 					user:user,
 				}))
@@ -123,7 +123,7 @@
 				var goodId=this.$route.params.goodsId;
 				var user=sessionStorage.getItem('token');
 				console.log('sessionStorage',sessionStorage.getItem('token'))
-				this.$axios.post('http://39.96.56.22:3000/goods/addGoods',querystring.stringify({
+				this.$axios.post('http://localhost:3000/goods/addGoods',querystring.stringify({
 					id: goodId,
 					name:this.container.name,
 					user:user,
@@ -178,7 +178,7 @@
 						
 						// 存在，数量+1
 						let updataNum=this.num+this.cartId[0].qty;
-						this.$axios.post('http://39.96.56.22:3000/goods/updateGoods',querystring.stringify({
+						this.$axios.post('http://localhost:3000/goods/updateGoods',querystring.stringify({
 							_id:this.cartId[0]._id,
 							id:this.cartId[0].id,
 							name:this.cartId[0].name,
@@ -248,7 +248,7 @@
 						let updataNum=this.num+this.cartId[0].qty;
 						var user=sessionStorage.getItem('token');
 
-						this.$axios.post('http://39.96.56.22:3000/goods/updateGoods',querystring.stringify({
+						this.$axios.post('http://localhost:3000/goods/updateGoods',querystring.stringify({
 							id:this.cartId[0].id,
 							name:this.cartId[0].name,
 							user:user,

@@ -130,7 +130,7 @@ export default {
 		getGoods(){
 			// let url='http://39.96.56.22:3000'+'/goodsAdmin/getGoods'
 			var user=sessionStorage.getItem('token');
-			this.$axios.post('http://39.96.56.22:3000/goods/getGoods',querystring.stringify({
+			this.$axios.post('http://localhost:3000/goods/getGoods',querystring.stringify({
 					user:user
 				}))
 			.then((res)=>{
@@ -173,7 +173,7 @@ export default {
 			var	size=this.cartList[index].size;
 			var	color=this.cartList[index].color;
 			// console.log(id,name,type,desc,price,imgpath,stock);
-			this.$axios.post('http://39.96.56.22:3000/goods/updateGoods',querystring.stringify({
+			this.$axios.post('http://localhost:3000/goods/updateGoods',querystring.stringify({
 				_id:_id,
 				id:id,
 				name:name,
@@ -213,7 +213,7 @@ export default {
 			var	size=this.cartList[index].size;
 			var	color=this.cartList[index].color;
 			// console.log(id,name,type,desc,price,imgpath,stock);
-			this.$axios.post('http://39.96.56.22:3000/goods/updateGoods',querystring.stringify({
+			this.$axios.post('http://localhost:3000/goods/updateGoods',querystring.stringify({
 				_id:_id,
 				id:id,
 				name:name,
@@ -244,7 +244,7 @@ export default {
 			var user=sessionStorage.getItem('token');
 			for(var i=0;i<this.selected.length;i++){
 
-				this.$axios.post('http://39.96.56.22:3000/goods/delGood',querystring.stringify({
+				this.$axios.post('http://localhost:3000/goods/delGood',querystring.stringify({
 					_id:this.cartList[this.selected[i]]._id,
 					user:user
 				}))
